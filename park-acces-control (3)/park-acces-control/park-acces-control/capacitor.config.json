@@ -1,0 +1,14 @@
+{
+  "appId": "com.martel.parkaccess",
+  "appName": "Park Access Control",
+  "webDir": "www",
+  "server": {
+    "url": "https://avalon-ju7h.onrender.com",
+    "cleartext": false
+  },
+  "plugins": {
+    "CapacitorHttp": {
+      "enabled": true
+    }
+  }
+}

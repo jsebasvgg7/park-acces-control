@@ -1,0 +1,12 @@
+[build]
+  base = "park-acces-control/park-acces-control"
+  publish = "public"
+  command = "echo Netlify static deploy ready"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+[[headers]]
+  for = "/api-config.js"
+  [headers.values]
+    Cache-Control = "no-cache"
