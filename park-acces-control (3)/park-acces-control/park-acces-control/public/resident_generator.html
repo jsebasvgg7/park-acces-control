@@ -1,429 +1,825 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <title>Avalon - Panel de Residente</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <script src="api-config.js"></script>
     <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; margin: 0; padding-bottom: 80px; }
-        .header-logos { background: white; padding: 14px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; box-shadow: 0 8px 20px rgba(0,0,0,0.06); }
-        .logos-center { display: flex; justify-content: center; gap: 28px; flex: 1; }
-        .header-logos img { height: 68px; object-fit: contain; filter: drop-shadow(0 8px 18px rgba(0,0,0,0.2)); }
-        
-        .user-section { display: flex; align-items: center; gap: 12px; padding: 0 15px; }
-        .user-info { text-align: right; font-size: 0.85rem; }
-        .user-name { font-weight: bold; color: #00594C; }
-        .user-role { color: #999; font-size: 0.75rem; }
-        .logout-btn { background: #ff6b6b; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: bold; }
-        .logout-btn:hover { background: #ff5252; }
-        
-        .main-container { padding: 15px; max-width: 1000px; margin: auto; }
-        .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 20px; }
-        h2 { color: #00594C; font-size: 1rem; border-bottom: 2px solid #00594C; padding-bottom: 5px; margin-top: 0; }
-        
-        table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
-        th { text-align: left; padding: 10px; background: #f8f9fa; border-bottom: 2px solid #eee; }
-        td { padding: 10px; border-bottom: 1px solid #eee; }
-        
-        /* ESTILO BARRA DE NAVEGACIÓN */
-        .navbar { position: fixed; bottom: 0; left: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 12px 0; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); z-index: 1000; }
-        .nav-item { text-decoration: none; color: #888; font-size: 0.75rem; display: flex; flex-direction: column; align-items: center; font-weight: bold; }
-        .nav-item.active { color: #00594C; }
-        .nav-icon { font-size: 1.4rem; margin-bottom: 2px; }
+        :root {
+            --green: #00594C;
+            --green-dark: #004038;
+            --green-light: #e8f5f2;
+            --accent: #00B894;
+            --danger: #E53E3E;
+            --warning-bg: #FFFBEB;
+            --warning-text: #92400E;
+            --warning-border: #FCD34D;
+            --text: #1a1a1a;
+            --text-muted: #6b7280;
+            --border: #e5e7eb;
+            --bg: #f4f6f5;
+            --white: #ffffff;
+            --radius: 14px;
+            --radius-sm: 8px;
+        }
 
-        .btn-action { background: #00594C; color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; }
-        
-        .alert-info { background: #e3f2fd; border: 1px solid #90caf9; color: #1976d2; padding: 12px; border-radius: 8px; margin-bottom: 15px; font-size: 0.9rem; }
-        
-        @media (max-width: 600px) {
-            .header-logos { flex-wrap: wrap; justify-content: center; }
-            .user-section { position: absolute; right: 15px; top: 70px; }
-            .logos-center { width: 100%; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+
+        /* HEADER */
+        .header {
+            background: var(--green);
+            padding: 16px 20px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-logos {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .header-logos img {
+            height: 32px;
+            object-fit: contain;
+            filter: brightness(0) invert(1);
+            opacity: 0.92;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-badge {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 20px;
+            padding: 5px 12px;
+            font-size: 13px;
+            color: white;
+            font-weight: 500;
+        }
+
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            border-radius: 8px;
+            padding: 6px 10px;
+            font-size: 13px;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            transition: background 0.2s;
+        }
+
+        .logout-btn:active {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        /* MAIN */
+        .main {
+            padding: 16px;
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        /* SECTION LABEL */
+        .section-label {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin: 20px 0 10px;
+        }
+
+        /* CARD */
+        .card {
+            background: var(--white);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+
+        .card-body {
+            padding: 16px;
+        }
+
+        /* GENERAR PASE */
+        .generate-card {
+            padding: 16px;
+        }
+
+        .generate-card input {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 15px;
+            font-family: 'DM Sans', sans-serif;
+            color: var(--text);
+            background: #fafafa;
+            margin-bottom: 10px;
+            transition: border-color 0.2s;
+            -webkit-appearance: none;
+        }
+
+        .generate-card input:focus {
+            outline: none;
+            border-color: var(--green);
+            background: white;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 14px;
+            background: var(--green);
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 15px;
+            font-weight: 600;
+            font-family: 'DM Sans', sans-serif;
+            cursor: pointer;
+            letter-spacing: 0.02em;
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        .btn-primary:active {
+            background: var(--green-dark);
+            transform: scale(0.98);
+        }
+
+        /* PENDIENTES */
+        .pending-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+
+        .pending-header {
+            padding: 14px 16px 10px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .pending-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 4px;
+        }
+
+        .pending-meta {
+            font-size: 12px;
+            color: var(--text-muted);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .meta-chip {
+            background: var(--green-light);
+            color: var(--green-dark);
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .pending-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .btn-approve {
+            padding: 13px;
+            background: var(--green-light);
+            color: var(--green-dark);
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: 'DM Sans', sans-serif;
+            cursor: pointer;
+            border-top: 1px solid var(--border);
+            border-right: 0.5px solid var(--border);
+            transition: background 0.2s;
+        }
+
+        .btn-deny {
+            padding: 13px;
+            background: #fff5f5;
+            color: var(--danger);
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: 'DM Sans', sans-serif;
+            cursor: pointer;
+            border-top: 1px solid var(--border);
+            border-left: 0.5px solid var(--border);
+            transition: background 0.2s;
+        }
+
+        .btn-approve:active {
+            background: #c6ede4;
+        }
+
+        .btn-deny:active {
+            background: #fed7d7;
+        }
+
+        /* PASES ACTIVOS */
+        .active-item {
+            display: flex;
+            align-items: center;
+            padding: 13px 16px;
+            border-bottom: 1px solid var(--border);
+            gap: 12px;
+        }
+
+        .active-item:last-child {
+            border-bottom: none;
+        }
+
+        .active-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: var(--green-light);
+            color: var(--green);
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .active-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .active-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .active-dest {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .active-badge {
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-weight: 500;
+            flex-shrink: 0;
+        }
+
+        .badge-single {
+            background: #EFF6FF;
+            color: #1D4ED8;
+        }
+
+        .badge-frequent {
+            background: var(--green-light);
+            color: var(--green);
+        }
+
+        /* HISTORIAL */
+        .history-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
+            gap: 12px;
+        }
+
+        .history-item:last-child {
+            border-bottom: none;
+        }
+
+        .history-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: #F0FDF4;
+            color: #16A34A;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .history-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .history-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .history-time {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        /* EMPTY STATE */
+        .empty-state {
+            text-align: center;
+            padding: 30px 20px;
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        .empty-state svg {
+            margin-bottom: 8px;
+            opacity: 0.3;
+        }
+
+        /* NOT AUTH */
+        .not-auth-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: calc(100vh - 80px);
+            padding: 20px;
+            text-align: center;
+        }
+
+        .not-auth-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+
+        .not-auth-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .not-auth-sub {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--white);
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0 14px;
+            z-index: 200;
+        }
+
+        .nav-item {
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            flex: 1;
+        }
+
+        .nav-icon {
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            font-size: 18px;
+            transition: background 0.2s;
+        }
+
+        .nav-item.active .nav-icon {
+            background: var(--green-light);
+        }
+
+        .nav-label {
+            font-size: 10px;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        .nav-item.active .nav-label {
+            color: var(--green);
+        }
+
+        /* NOTIF DOT */
+        .notif-wrap {
+            position: relative;
+        }
+
+        .notif-dot {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            width: 8px;
+            height: 8px;
+            background: var(--danger);
+            border-radius: 50%;
+            border: 1.5px solid white;
+            display: none;
+        }
+
+        /* LOADING */
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.2s infinite;
+            border-radius: 6px;
+            height: 14px;
+            margin-bottom: 8px;
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -200% 0;
+            }
+
+            100% {
+                background-position: 200% 0;
+            }
+        }
+
+        /* LAST QR MINI */
+        .last-qr-mini {
+            display: none;
+            align-items: center;
+            gap: 12px;
+            background: var(--green-light);
+            border: 1px solid #b2d8d0;
+            border-radius: var(--radius-sm);
+            padding: 10px 14px;
+            margin-top: 10px;
+        }
+
+        .last-qr-mini img {
+            width: 48px;
+            height: 48px;
+            border-radius: 6px;
+        }
+
+        .last-qr-mini-info {
+            flex: 1;
+        }
+
+        .last-qr-mini-token {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--green-dark);
+        }
+
+        .last-qr-mini-label {
+            font-size: 11px;
+            color: var(--green);
         }
     </style>
 </head>
+
 <body>
 
-    <div class="header-logos">
-        <div class="logos-center">
-            <img src="img/logo-prologis.png">
-            <img src="img/logo-martel.png">
+    <!-- HEADER -->
+    <div class="header" id="mainHeader">
+        <div class="header-logos">
+            <img src="img/logo-prologis.png" alt="Prologis">
+            <img src="img/logo-martel.png" alt="Martel">
         </div>
-        <div class="user-section" id="userSection" style="display:none;">
-            <div class="user-info">
-                <div class="user-name" id="displayUsername">--</div>
-                <div class="user-role" id="displayRole">Residente</div>
-            </div>
-            <button class="logout-btn" onclick="logout()">Cerrar Sesión</button>
+        <div class="header-right" id="userSection" style="display:none;">
+            <span class="user-badge" id="displayUsername">—</span>
+            <button class="logout-btn" onclick="logout()">Salir</button>
         </div>
     </div>
 
-    <div class="main-container">
-        <!-- Mensaje cuando no está autenticado -->
-        <div class="card" id="not-authenticated" style="display:none;">
-            <div class="alert-info">
-                ⚠️ Debes iniciar sesión para acceder a esta página.
-            </div>
-            <button class="btn-action" style="width:100%" onclick="window.location.href='index.html'">
-                IR A INICIO DE SESIÓN
-            </button>
-        </div>
+    <!-- NOT AUTH -->
+    <div class="not-auth-screen" id="notAuthScreen" style="display:none;">
+        <div class="not-auth-icon">🔒</div>
+        <div class="not-auth-title">Acceso restringido</div>
+        <div class="not-auth-sub">Inicia sesión para ver el panel de residente</div>
+        <button class="btn-primary" style="max-width:220px;" onclick="window.location.href='index.html'">
+            Ir al inicio de sesión
+        </button>
+    </div>
 
-        <!-- Panel de generación de pases -->
-        <div class="card" id="generate-card" style="display:none;">
-            <h2>Generar Pase Rápido</h2>
-            <input type="text" id="vName" placeholder="Nombre Visitante" style="width:100%; padding:10px; margin-bottom:10px; border:1px solid #ccc; border-radius:8px;">
-            <input type="text" id="vDestination" placeholder="Destino/Bodega" style="width:100%; padding:10px; margin-bottom:10px; border:1px solid #ccc; border-radius:8px;">
-            <button class="btn-action" style="width:100%" onclick="generarManual()">GENERAR QR</button>
-        </div>
-        <div id="last-qr" style="display:none; margin:12px 0;"></div>
+    <!-- MAIN PANEL -->
+    <div class="main" id="mainPanel" style="display:none;">
 
-        <!-- Pases Activos -->
-        <div class="card" style="overflow-x: auto;">
-            <h2>Pases Activos</h2>
-            <div id="lista-activos">
-                <table id="tabla-activos" style="width:100%; border-collapse:collapse; font-size:0.85rem;">
-                    <thead>
-                        <tr style="background:#f8f9fa;">
-                            <th style="text-align:left; padding:10px; border-bottom:2px solid #eee;">Visitante</th>
-                            <th style="text-align:left; padding:10px; border-bottom:2px solid #eee;">Tipo</th>
-                            <th style="text-align:left; padding:10px; border-bottom:2px solid #eee;">Destino</th>
-                            <th style="text-align:left; padding:10px; border-bottom:2px solid #eee;">Estado</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td colspan="4" style="text-align:center; padding:20px; color:#999;">Cargando...</td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Solicitudes Pendientes -->
+        <!-- GENERAR PASE -->
+        <div class="section-label">Generar pase rápido</div>
         <div class="card">
-            <h2>Solicitudes Pendientes</h2>
-            <div id="lista-pendientes">Cargando...</div>
+            <div class="generate-card">
+                <input type="text" id="vName" placeholder="Nombre del visitante">
+                <input type="text" id="vDestination" placeholder="Bodega / Destino">
+                <button class="btn-primary" onclick="generarManual()">Generar QR</button>
+                <div class="last-qr-mini" id="lastQrMini">
+                    <img id="lastQrImg" src="" alt="QR">
+                    <div class="last-qr-mini-info">
+                        <div class="last-qr-mini-token" id="lastQrToken">—</div>
+                        <div class="last-qr-mini-label">Pase generado · Toca para ver</div>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <!-- Historial de Accesos -->
-        <div class="card" style="overflow-x: auto;">
-            <h2>Historial de Accesos</h2>
-            <table id="tabla-historial">
-                <thead>
-                    <tr>
-                        <th>Hora</th>
-                        <th>Nombre</th>
-                        <th>Destino</th>
-                        <th>Estado</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><td colspan="4" style="text-align:center; padding:20px; color:#999;">Cargando...</td></tr>
-                </tbody>
-            </table>
+        <!-- SOLICITUDES PENDIENTES -->
+        <div class="section-label">
+            Solicitudes pendientes
+            <span id="pendingCount"
+                style="display:none; background:var(--danger); color:white; padding:1px 6px; border-radius:10px; font-size:10px; margin-left:6px;"></span>
         </div>
+        <div id="listaPendientes">
+            <div class="card">
+                <div class="empty-state">Cargando...</div>
+            </div>
+        </div>
+
+        <!-- PASES ACTIVOS -->
+        <div class="section-label">Pases activos</div>
+        <div class="card" id="cardActivos">
+            <div class="empty-state">Cargando...</div>
+        </div>
+
+        <!-- HISTORIAL -->
+        <div class="section-label">Historial reciente</div>
+        <div class="card" id="cardHistorial">
+            <div class="empty-state">Cargando...</div>
+        </div>
+
     </div>
 
+    <!-- NAVBAR -->
     <nav class="navbar">
-        <a href="index.html" class="nav-item"> <span class="nav-icon">🏠</span>Inicio </a>
-        <a href="visitor_request.html" class="nav-item"> <span class="nav-icon">📝</span>Registro </a>
-        <a href="resident_generator.html" class="nav-item active"> <span class="nav-icon">📊</span>Panel </a>
+        <a href="index.html" class="nav-item">
+            <div class="nav-icon">🏠</div>
+            <span class="nav-label">Inicio</span>
+        </a>
+        <a href="visitor_request.html" class="nav-item">
+            <div class="nav-icon">📝</div>
+            <span class="nav-label">Registro</span>
+        </a>
+        <a href="resident_generator.html" class="nav-item active">
+            <div class="nav-icon notif-wrap">
+                📊
+                <span class="notif-dot" id="navNotifDot"></span>
+            </div>
+            <span class="nav-label">Panel</span>
+        </a>
     </nav>
 
     <script>
-        const socket = window.io ? io(window.APP_CONFIG.SOCKET_BASE || undefined) : { emit: function () {}, on: function () {} };
-        let authToken = localStorage.getItem('authToken') || null;
-        let username = localStorage.getItem('username') || null;
+        const socket = window.io ? io(window.APP_CONFIG?.SOCKET_BASE || undefined) : { emit: () => { }, on: () => { } };
+        let authToken = localStorage.getItem('authToken');
+        let username = localStorage.getItem('username');
         let userType = localStorage.getItem('userType') || 'resident';
+        let lastQrParams = null;
 
-        // Función para obtener headers con autenticación
         function getAuthHeaders() {
-            if (!authToken) {
-                return null;
-            }
-            return {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${authToken}`
-            };
+            if (!authToken) return null;
+            return { 'Content-Type': 'application/json', 'Authorization': `Bearer ${authToken}` };
         }
 
-        // Verificar autenticación al cargar la página
-        function verificarAutenticacion() {
+        function initPage() {
             if (!authToken) {
-                // No está autenticado
-                document.getElementById('not-authenticated').style.display = 'block';
-                document.getElementById('generate-card').style.display = 'none';
-                document.querySelector('#tabla-activos tbody').innerHTML = '<tr><td colspan="4" style="text-align:center; padding:20px; color:#999;">Inicia sesión para ver pases activos</td></tr>';
-                document.querySelector('#tabla-historial tbody').innerHTML = '<tr><td colspan="4" style="text-align:center; padding:20px; color:#999;">Inicia sesión para ver historial</td></tr>';
-                document.getElementById('lista-pendientes').innerText = 'Inicia sesión para ver solicitudes pendientes';
-                return false;
+                document.getElementById('notAuthScreen').style.display = 'flex';
+                document.getElementById('mainPanel').style.display = 'none';
+                document.getElementById('userSection').style.display = 'none';
+                return;
             }
-
-            // Está autenticado - mostrar panel
-            document.getElementById('not-authenticated').style.display = 'none';
-            document.getElementById('generate-card').style.display = 'block';
+            document.getElementById('notAuthScreen').style.display = 'none';
+            document.getElementById('mainPanel').style.display = 'block';
             document.getElementById('userSection').style.display = 'flex';
             document.getElementById('displayUsername').textContent = username || 'Usuario';
-            document.getElementById('displayRole').textContent = userType === 'admin' ? 'Administrador' : 'Residente';
-            
-            return true;
+            refrescar();
+            setInterval(refrescar, 5000);
         }
 
         function logout() {
-            if (!confirm('¿Deseas cerrar sesión?')) return;
-            
+            if (!confirm('¿Cerrar sesión?')) return;
             localStorage.removeItem('authToken');
             localStorage.removeItem('username');
             localStorage.removeItem('userType');
-            
             window.location.href = 'index.html';
+        }
+
+        function getInitials(name) {
+            if (!name) return '?';
+            return name.split(' ').slice(0, 2).map(n => n[0]).join('').toUpperCase();
         }
 
         async function generarManual() {
             const vName = document.getElementById('vName').value.trim();
             const vDestination = document.getElementById('vDestination').value.trim();
-            
-            if (!vName) {
-                alert('Ingresa el nombre del visitante');
-                return;
-            }
+            if (!vName) { alert('Ingresa el nombre del visitante'); return; }
 
             const headers = getAuthHeaders();
-            if (!headers) {
-                alert('Sesión expirada. Por favor inicia sesión nuevamente.');
-                window.location.href = 'index.html';
-                return;
-            }
+            if (!headers) { window.location.href = 'index.html'; return; }
+
+            const btn = document.querySelector('.btn-primary');
+            btn.textContent = 'Generando...';
+            btn.disabled = true;
 
             try {
-                const response = await fetch(apiUrl('/api/access/generate-manual'), {
-                    method: 'POST',
-                    headers: headers,
-                    body: JSON.stringify({ 
-                        visitorName: vName, 
-                        destination: vDestination || 'Manual', 
-                        hostName: username || 'Residente', 
-                        accessType: 'single',
-                        visitType: 'visita'
-                    })
+                const res = await fetch(apiUrl('/api/access/generate-manual'), {
+                    method: 'POST', headers,
+                    body: JSON.stringify({ visitorName: vName, destination: vDestination || 'Manual', hostName: username || 'Residente', accessType: 'single', visitType: 'visita' })
                 });
-
-                if (!response.ok) {
-                    if (response.status === 401) {
-                        alert('Sesión expirada. Por favor inicia sesión nuevamente.');
-                        window.location.href = 'index.html';
-                        return;
-                    }
-                    throw new Error('Error al generar pase');
-                }
-
-                const data = await response.json();
-
+                if (res.status === 401) { window.location.href = 'index.html'; return; }
+                const data = await res.json();
                 if (data.success && data.token) {
-                    // Limpiar campos
                     document.getElementById('vName').value = '';
                     document.getElementById('vDestination').value = '';
-                    
-                    // Guardar QR en sessionStorage
                     if (data.qrCodeImage) {
                         sessionStorage.setItem('qrCodeImage', data.qrCodeImage);
+                        const mini = document.getElementById('lastQrMini');
+                        document.getElementById('lastQrImg').src = data.qrCodeImage;
+                        document.getElementById('lastQrToken').textContent = data.token;
+                        mini.style.display = 'flex';
+                        mini.onclick = () => abrirQR(data);
                     }
-                    
-                    // Abrir página detallada del QR
-                    const qrParams = new URLSearchParams({
-                        token: data.token,
-                        visitorName: data.visitorName || vName,
-                        empresa: data.empresa || 'Manual',
-                        planta: data.destination || vDestination,
-                        accessType: data.accessType,
-                        generatedBy: username || 'Residente'
-                    });
-                    window.open(`qr_display.html?${qrParams.toString()}`, '_blank');
-                    
-                    // Refrescar listas
+                    lastQrParams = data;
+                    const qrParams = new URLSearchParams({ token: data.token, visitorName: data.visitorName || vName, empresa: 'Manual', planta: data.destination || vDestination, accessType: data.accessType, generatedBy: username || 'Residente' });
+                    window.open(`qr_display.html?${qrParams}`, '_blank');
                     refrescar();
-                } else {
-                    alert('Error al generar pase');
                 }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('Error al generar pase: ' + error.message);
-            }
+            } catch (e) { alert('Error al generar pase'); }
+            finally { btn.textContent = 'Generar QR'; btn.disabled = false; }
+        }
+
+        function abrirQR(data) {
+            const qrParams = new URLSearchParams({ token: data.token, visitorName: data.visitorName || '', empresa: data.empresa || 'Manual', planta: data.destination || '', accessType: data.accessType || 'single', generatedBy: username || 'Residente' });
+            window.open(`qr_display.html?${qrParams}`, '_blank');
         }
 
         async function refrescar() {
-            if (!authToken) {
-                verificarAutenticacion();
-                return;
-            }
-
+            if (!authToken) return;
             const headers = getAuthHeaders();
-            if (!headers) {
-                window.location.href = 'index.html';
-                return;
-            }
+            if (!headers) return;
 
             try {
-                // Cargar Pases Activos
-                const resA = await fetch(apiUrl('/api/access/active'), { headers });
-                if (!resA.ok) {
-                    if (resA.status === 401) {
-                        alert('Sesión expirada. Por favor inicia sesión nuevamente.');
-                        window.location.href = 'index.html';
-                        return;
-                    }
-                    throw new Error('Error al cargar pases activos');
-                }
+                const [resA, resH, resP] = await Promise.all([
+                    fetch(apiUrl('/api/access/active'), { headers }),
+                    fetch(apiUrl('/api/access/history'), { headers }),
+                    fetch(apiUrl('/api/access/pending'), { headers })
+                ]);
+
+                if (resA.status === 401) { window.location.href = 'index.html'; return; }
+
                 const activos = await resA.json();
-                
-                document.querySelector('#tabla-activos tbody').innerHTML = activos.length > 0 ? activos.map(a => {
-                    let tipoBadge = a.accessType === 'frequent' 
-                        ? `<span style="background:#4CAF50; color:white; padding:3px 8px; border-radius:3px; font-size:0.75rem;">Frecuente (${a.usageCount || 0}/10)</span>` 
-                        : '<span style="background:#2196F3; color:white; padding:3px 8px; border-radius:3px; font-size:0.75rem;">Temporal</span>';
-                    return `
-                        <tr style="border-bottom:1px solid #eee;">
-                            <td style="padding:10px;">${a.visitorName}</td>
-                            <td style="padding:10px;">${tipoBadge}</td>
-                            <td style="padding:10px;">${a.destination || '-'}</td>
-                            <td style="padding:10px; color:green;">Activo</td>
-                        </tr>
-                    `;
-                }).join('') : '<tr><td colspan="4" style="text-align:center; padding:20px; color:#999;">No hay pases activos para ti</td></tr>';
-
-                // Cargar Historial
-                const resH = await fetch(apiUrl('/api/access/history'), { headers });
-                if (!resH.ok) throw new Error('Error al cargar historial');
                 const hist = await resH.json();
-                
-                document.querySelector('#tabla-historial tbody').innerHTML = hist.length > 0 ? hist.map(h => `
-                    <tr>
-                        <td>${new Date(h.usedAt || h.updatedAt).toLocaleString()}</td>
-                        <td>${h.visitorName}</td>
-                        <td>${h.destination || '-'}</td>
-                        <td style="color:green">Completado${h.motivoCierre ? ` (${h.motivoCierre})` : ''}</td>
-                    </tr>
-                `).join('') : '<tr><td colspan="4" style="text-align:center; padding:20px; color:#999;">No hay historial disponible</td></tr>';
-
-                // Cargar Solicitudes Pendientes
-                const resP = await fetch(apiUrl('/api/access/pending'), { headers });
-                if (!resP.ok) throw new Error('Error al cargar solicitudes pendientes');
                 const pends = await resP.json();
-                
-                console.log('📋 Solicitudes pendientes cargadas:', pends.length);
-                
-                document.getElementById('lista-pendientes').innerHTML = pends.length > 0 ? pends.map(p => {
-                    let tipoText = p.accessType === 'frequent' ? '🔁 Frecuente' : '⏱️ Temporal';
-                    return `
-                        <div style="padding:10px; background:#fff3cd; margin-bottom:5px; border-radius:8px; display:flex; align-items:center; justify-content:space-between;">
-                            <div>
-                                <b>${p.visitorName}</b> (${tipoText})<br>
-                                📍 ${p.destination} | 🚗 ${p.placas || 'N/A'}
-                                ${p.hostName ? `<br><small>Anfitrión: ${p.hostName}</small>` : ''}
-                            </div>
-                            <div>
-                              <button onclick="resolver('${p._id}','approve')" style="background:green; color:white; border:none; padding:5px; margin-left:10px; border-radius:4px; cursor:pointer;">Aceptar</button>
-                              <button onclick="resolver('${p._id}','deny')" style="background:red; color:white; border:none; padding:5px; margin-left:10px; border-radius:4px; cursor:pointer;">Denegar</button>
-                            </div>
-                        </div>
-                    `;
-                }).join('') : '<div style="padding:15px; text-align:center; color:#999;">No hay solicitudes pendientes para ti</div>';
 
-            } catch (error) {
-                console.error('Error al refrescar:', error);
+                renderActivos(activos);
+                renderHistorial(hist);
+                renderPendientes(pends);
+
+                const dot = document.getElementById('navNotifDot');
+                const countBadge = document.getElementById('pendingCount');
+                if (pends.length > 0) {
+                    dot.style.display = 'block';
+                    countBadge.style.display = 'inline';
+                    countBadge.textContent = pends.length;
+                } else {
+                    dot.style.display = 'none';
+                    countBadge.style.display = 'none';
+                }
+            } catch (e) { console.error(e); }
+        }
+
+        function renderActivos(activos) {
+            const el = document.getElementById('cardActivos');
+            if (!activos.length) {
+                el.innerHTML = '<div class="empty-state">No hay pases activos</div>';
+                return;
             }
+            el.innerHTML = activos.map(a => `
+            <div class="active-item">
+                <div class="active-avatar">${getInitials(a.visitorName)}</div>
+                <div class="active-info">
+                    <div class="active-name">${a.visitorName}</div>
+                    <div class="active-dest">${a.destination || '—'}</div>
+                </div>
+                <span class="active-badge ${a.accessType === 'frequent' ? 'badge-frequent' : 'badge-single'}">
+                    ${a.accessType === 'frequent' ? `Frecuente (${a.usageCount || 0}/10)` : 'Temporal'}
+                </span>
+            </div>
+        `).join('');
+        }
+
+        function renderHistorial(hist) {
+            const el = document.getElementById('cardHistorial');
+            if (!hist.length) {
+                el.innerHTML = '<div class="empty-state">Sin historial aún</div>';
+                return;
+            }
+            el.innerHTML = hist.slice(0, 10).map(h => `
+            <div class="history-item">
+                <div class="history-icon">✓</div>
+                <div class="history-info">
+                    <div class="history-name">${h.visitorName}</div>
+                    <div class="history-time">${h.destination || '—'} · ${new Date(h.usedAt || h.updatedAt).toLocaleString('es', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })}</div>
+                </div>
+            </div>
+        `).join('');
+        }
+
+        function renderPendientes(pends) {
+            const el = document.getElementById('listaPendientes');
+            if (!pends.length) {
+                el.innerHTML = '<div class="card"><div class="empty-state">No hay solicitudes pendientes</div></div>';
+                return;
+            }
+            el.innerHTML = pends.map(p => `
+            <div class="pending-card">
+                <div class="pending-header">
+                    <div class="pending-name">${p.visitorName}</div>
+                    <div class="pending-meta">
+                        <span>📍 ${p.destination || '—'}</span>
+                        ${p.placas ? `<span>🚗 ${p.placas}</span>` : ''}
+                        <span class="meta-chip">${p.accessType === 'frequent' ? 'Frecuente' : 'Temporal'}</span>
+                        ${p.visitType ? `<span class="meta-chip">${p.visitType}</span>` : ''}
+                    </div>
+                    ${p.hostName ? `<div style="font-size:11px; color:var(--text-muted); margin-top:6px;">Anfitrión: ${p.hostName}</div>` : ''}
+                </div>
+                <div class="pending-actions">
+                    <button class="btn-approve" onclick="resolver('${p._id}','approve')">✓ Aprobar</button>
+                    <button class="btn-deny" onclick="resolver('${p._id}','deny')">✗ Denegar</button>
+                </div>
+            </div>
+        `).join('');
         }
 
         async function resolver(id, action) {
             const headers = getAuthHeaders();
-            if (!headers) {
-                alert('Sesión expirada. Por favor inicia sesión nuevamente.');
-                window.location.href = 'index.html';
-                return;
-            }
+            if (!headers) { window.location.href = 'index.html'; return; }
 
+            const url = apiUrl(`/api/access/${action === 'approve' ? 'approve' : 'deny'}/${id}`);
             try {
-                if (action === 'approve') {
-                    const res = await fetch(apiUrl(`/api/access/approve/${id}`), { 
-                        method: 'POST', 
-                        headers: headers 
-                    });
-
-                    if (!res.ok) {
-                        if (res.status === 401) {
-                            alert('Sesión expirada. Por favor inicia sesión nuevamente.');
-                            window.location.href = 'index.html';
-                            return;
-                        }
-                        throw new Error('Error al aprobar solicitud');
-                    }
-
-                    const data = await res.json();
-                    
-                    if (data && data.requestId) {
-                        // Emitir al visitante vía socket
-                        socket.emit('approve-access', { 
-                            requestId: data.requestId, 
-                            token: data.token, 
-                            qrCodeImage: data.qrCodeImage 
-                        });
-                        
-                        // Guardar QR en sessionStorage
-                        if (data.qrCodeImage) {
-                            sessionStorage.setItem('qrCodeImage', data.qrCodeImage);
-                        }
-                        
-                        // Abrir página detallada del QR
-                        const qrParams = new URLSearchParams({
-                            token: data.token,
-                            visitorName: data.visitorName || 'Visitante',
-                            empresa: data.empresa || 'No especificado',
-                            planta: data.destination || 'Acceso',
-                            accessType: data.accessType || 'single',
-                            generatedBy: username || 'Residente'
-                        });
-                        window.open(`qr_display.html?${qrParams.toString()}`, '_blank');
-                        
-                        // Mostrar QR en el panel también
-                        document.getElementById('last-qr').style.display = 'flex';
-                        document.getElementById('last-qr').innerHTML = `
-                            <img src="${data.qrCodeImage}" style="width:120px; height:120px; object-fit:contain; border-radius:8px; margin-right:10px;"> 
-                            <div style="display:flex; flex-direction:column; justify-content:center;">
-                                <b>${data.token}</b>
-                                <small>Enviado al visitante</small>
-                            </div>
-                        `;
-                    }
-                    
-                    refrescar();
-                    
-                } else {
-                    const res = await fetch(apiUrl(`/api/access/deny/${id}`), { 
-                        method: 'POST', 
-                        headers: headers 
-                    });
-
-                    if (!res.ok) throw new Error('Error al denegar solicitud');
-
-                    const data = await res.json();
-                    if (data && data.requestId) {
-                        socket.emit('deny-access', data.requestId);
-                    }
-                    
-                    refrescar();
+                const res = await fetch(url, { method: 'POST', headers });
+                if (!res.ok) { if (res.status === 401) { window.location.href = 'index.html'; } return; }
+                const data = await res.json();
+                if (action === 'approve' && data.token) {
+                    socket.emit('approve-access', { requestId: data.requestId, token: data.token, qrCodeImage: data.qrCodeImage });
+                    if (data.qrCodeImage) sessionStorage.setItem('qrCodeImage', data.qrCodeImage);
+                    const qrParams = new URLSearchParams({ token: data.token, visitorName: data.visitorName || '', empresa: data.empresa || '', planta: data.destination || '', accessType: data.accessType || 'single', generatedBy: username || 'Residente' });
+                    window.open(`qr_display.html?${qrParams}`, '_blank');
+                } else if (action === 'deny' && data.requestId) {
+                    socket.emit('deny-access', data.requestId);
                 }
-            } catch (error) {
-                console.error('Error al resolver solicitud:', error);
-                alert('Error al procesar la solicitud');
-            }
+                refrescar();
+            } catch (e) { alert('Error al procesar la solicitud'); }
         }
 
-        // Verificar autenticación al cargar
-        if (verificarAutenticacion()) {
-            refrescar();
-            // Refrescar cada 5 segundos
-            setInterval(refrescar, 5000);
-        }
+        initPage();
     </script>
 </body>
+
 </html>

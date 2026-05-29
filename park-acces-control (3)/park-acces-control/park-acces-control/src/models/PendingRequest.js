@@ -8,14 +8,14 @@ const PendingRequestSchema = new mongoose.Schema({
     hostName: { type: String },
     vehiculo: { type: String },
     placas: { type: String },
-    accessType: { type: String, enum: ['single','frequent'], default: 'single' },
-    visitType: { type: String, enum: ['cargo','visita'], default: 'cargo' },
+    accessType: { type: String, enum: ['single', 'frequent'], default: 'single' },
+    visitType: { type: String, enum: ['cargo', 'visita'], default: 'cargo' },
     phone: { type: String },
 
     residentId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        required: true
+        required: false
     }
 
 }, { timestamps: true });
