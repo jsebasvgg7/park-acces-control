@@ -13,13 +13,12 @@
 
 <body>
 
-    <!-- ── TOP BAR ───────────────────────────────────────── -->
+    <!-- TOP BAR -->
     <div class="topbar">
         <div class="logos">
             <img src="img/logo-prologis.png" alt="Prologis">
             <img src="img/logo-martel.png" alt="Martel">
         </div>
-
         <div class="progress-wrap" id="progressWrap">
             <div class="progress-track">
                 <div class="progress-seg active" id="seg1"></div>
@@ -33,13 +32,20 @@
         </div>
     </div>
 
-    <!-- ── MAIN CARD ─────────────────────────────────────── -->
+    <!-- MAIN CARD -->
     <div class="card" id="mainCard">
 
-        <!-- ── STEP 1: Tipo de visita ──────────────────────── -->
+        <!-- STEP 1: Tipo de visita -->
         <div class="step active" id="step1">
             <div class="step-strip">
-                <div class="step-icon-bubble">🚦</div>
+                <div class="step-icon-bubble">
+                    <!-- traffic-cone / gate icon -->
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="12" y1="8" x2="12" y2="12" />
+                        <line x1="12" y1="16" x2="12.01" y2="16" />
+                    </svg>
+                </div>
                 <div>
                     <div class="step-head-title">Tipo de visita</div>
                     <div class="step-head-sub">¿Cuál es el motivo de tu ingreso?</div>
@@ -52,7 +58,14 @@
                     <div class="opt-item">
                         <input type="radio" name="visitType" id="typeCargo" value="cargo" checked>
                         <label class="opt-label" for="typeCargo">
-                            <span class="opt-icon">🚛</span>
+                            <span class="opt-icon">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="1" y="3" width="15" height="13" rx="1" />
+                                    <path d="M16 8h4l3 3v5h-7V8z" />
+                                    <circle cx="5.5" cy="18.5" r="2.5" />
+                                    <circle cx="18.5" cy="18.5" r="2.5" />
+                                </svg>
+                            </span>
                             <span class="opt-title">Carga</span>
                             <span class="opt-sub">Entrega o retiro</span>
                         </label>
@@ -60,7 +73,12 @@
                     <div class="opt-item">
                         <input type="radio" name="visitType" id="typeVisita" value="visita">
                         <label class="opt-label" for="typeVisita">
-                            <span class="opt-icon">👤</span>
+                            <span class="opt-icon">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                    <circle cx="12" cy="7" r="4" />
+                                </svg>
+                            </span>
                             <span class="opt-title">Visita</span>
                             <span class="opt-sub">Reunión o gestión</span>
                         </label>
@@ -72,7 +90,12 @@
                     <div class="opt-item">
                         <input type="radio" name="accessType" id="accessSingle" value="single" checked>
                         <label class="opt-label" for="accessSingle">
-                            <span class="opt-icon">⏱</span>
+                            <span class="opt-icon">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="12" cy="12" r="10" />
+                                    <polyline points="12 6 12 12 16 14" />
+                                </svg>
+                            </span>
                             <span class="opt-title">Temporal</span>
                             <span class="opt-sub">Una entrada · 10 hrs</span>
                         </label>
@@ -80,7 +103,14 @@
                     <div class="opt-item">
                         <input type="radio" name="accessType" id="accessFrequent" value="frequent">
                         <label class="opt-label" for="accessFrequent">
-                            <span class="opt-icon">🔁</span>
+                            <span class="opt-icon">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <polyline points="17 1 21 5 17 9" />
+                                    <path d="M3 11V9a4 4 0 0 1 4-4h14" />
+                                    <polyline points="7 23 3 19 7 15" />
+                                    <path d="M21 13v2a4 4 0 0 1-4 4H3" />
+                                </svg>
+                            </span>
                             <span class="opt-title">Frecuente</span>
                             <span class="opt-sub">Múltiples entradas</span>
                         </label>
@@ -101,32 +131,29 @@
                     <label>Bodega / Destino</label>
                     <input type="text" id="vDest" placeholder="Ej: Bodega 12, Oficina A">
                 </div>
-
             </div>
         </div>
 
-        <!-- ── STEP 2: Datos personales ────────────────────── -->
+        <!-- STEP 2: Datos personales -->
         <div class="step" id="step2">
             <div class="step-strip">
-                <div class="step-icon-bubble">👤</div>
+                <div class="step-icon-bubble">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                        <circle cx="12" cy="7" r="4" />
+                    </svg>
+                </div>
                 <div>
                     <div class="step-head-title">Datos personales</div>
                     <div class="step-head-sub">Tu información de contacto</div>
                 </div>
             </div>
             <div class="card-body">
-
-                <div class="field">
-                    <label>Empresa / Proveedor</label>
-                    <input type="text" id="vEmp" placeholder="Nombre de tu empresa">
-                </div>
-                <div class="field">
-                    <label>Nombre completo</label>
-                    <input type="text" id="vName" placeholder="Tu nombre y apellido">
-                </div>
-                <div class="field">
-                    <label>Teléfono</label>
-                    <input type="tel" id="vPhone" placeholder="+57 300 000 0000">
+                <div class="field"><label>Empresa / Proveedor</label><input type="text" id="vEmp"
+                        placeholder="Nombre de tu empresa"></div>
+                <div class="field"><label>Nombre completo</label><input type="text" id="vName"
+                        placeholder="Tu nombre y apellido"></div>
+                <div class="field"><label>Teléfono</label><input type="tel" id="vPhone" placeholder="+57 300 000 0000">
                 </div>
 
                 <div class="section-divider">
@@ -136,38 +163,47 @@
                 </div>
 
                 <div class="upload-zone" onclick="document.getElementById('idFile').click()">
-                    <div class="upload-zone-icon">🪪</div>
+                    <div class="upload-zone-icon">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="2" y="5" width="20" height="14" rx="2" />
+                            <line x1="2" y1="10" x2="22" y2="10" />
+                        </svg>
+                    </div>
                     <div class="upload-zone-text">
                         <div class="upload-zone-title">Cédula o licencia</div>
                         <div class="upload-zone-sub">Foto de tu documento de identidad</div>
                         <div class="upload-zone-done" id="idFileName"></div>
                     </div>
-                    <div class="upload-arrow">›</div>
+                    <div class="upload-arrow">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <polyline points="9 18 15 12 9 6" />
+                        </svg>
+                    </div>
                 </div>
                 <input type="file" id="idFile" style="display:none;" accept="image/*">
-
             </div>
         </div>
 
-        <!-- ── STEP 3: Vehículo ────────────────────────────── -->
+        <!-- STEP 3: Vehículo -->
         <div class="step" id="step3">
             <div class="step-strip">
-                <div class="step-icon-bubble">🚗</div>
+                <div class="step-icon-bubble">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 17H3a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v9a2 2 0 0 1-2 2h-2" />
+                        <circle cx="7.5" cy="17.5" r="2.5" />
+                        <circle cx="17.5" cy="17.5" r="2.5" />
+                    </svg>
+                </div>
                 <div>
                     <div class="step-head-title">Vehículo</div>
                     <div class="step-head-sub">Datos del vehículo de ingreso</div>
                 </div>
             </div>
             <div class="card-body">
-
                 <div class="field-row">
-                    <div class="field">
-                        <label>Placa</label>
-                        <input type="text" id="vPla" placeholder="ABC-123" style="text-transform:uppercase;">
-                    </div>
-                    <div class="field">
-                        <label>Modelo</label>
-                        <input type="text" id="vVeh" placeholder="Ej: Logan 2020">
+                    <div class="field"><label>Placa</label><input type="text" id="vPla" placeholder="ABC-123"
+                            style="text-transform:uppercase;"></div>
+                    <div class="field"><label>Modelo</label><input type="text" id="vVeh" placeholder="Ej: Logan 2020">
                     </div>
                 </div>
 
@@ -178,36 +214,53 @@
                 </div>
 
                 <div class="upload-zone" onclick="document.getElementById('vehicleFile').click()">
-                    <div class="upload-zone-icon">📸</div>
+                    <div class="upload-zone-icon">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                            <circle cx="8.5" cy="8.5" r="1.5" />
+                            <polyline points="21 15 16 10 5 21" />
+                        </svg>
+                    </div>
                     <div class="upload-zone-text">
                         <div class="upload-zone-title">Subir fotos</div>
                         <div class="upload-zone-sub">Puedes seleccionar varias imágenes</div>
                         <div class="upload-zone-done" id="vehicleFileName"></div>
                     </div>
-                    <div class="upload-arrow">›</div>
+                    <div class="upload-arrow">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <polyline points="9 18 15 12 9 6" />
+                        </svg>
+                    </div>
                 </div>
                 <input type="file" id="vehicleFile" style="display:none;" accept="image/*" multiple>
-
             </div>
         </div>
 
-        <!-- ── PANTALLA ESPERANDO ──────────────────────────── -->
+        <!-- PANTALLA ESPERANDO -->
         <div class="special-screen" id="waitScreen">
-            <div class="special-icon-ring ring-wait">⏳</div>
-            <div class="special-title">Solicitud enviada</div>
-            <div class="special-sub">
-                Tu anfitrión recibirá la notificación y aprobará tu acceso en breve.<br>
-                No cierres esta pantalla.
+            <div class="special-icon-ring ring-wait">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="10" />
+                    <polyline points="12 6 12 12 16 14" />
+                </svg>
             </div>
+            <div class="special-title">Solicitud enviada</div>
+            <div class="special-sub">Tu anfitrión recibirá la notificación y aprobará tu acceso en breve.<br>No cierres
+                esta pantalla.</div>
             <div class="pulse-row">
                 <div class="pulse-dot"></div>
                 Esperando aprobación del anfitrión…
             </div>
         </div>
 
-        <!-- ── PANTALLA APROBADO ───────────────────────────── -->
+        <!-- PANTALLA APROBADO -->
         <div class="special-screen" id="approvedScreen">
-            <div class="special-icon-ring ring-ok">✅</div>
+            <div class="special-icon-ring ring-ok">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                    <polyline points="22 4 12 14.01 9 11.01" />
+                </svg>
+            </div>
             <div class="special-title">¡Acceso aprobado!</div>
             <div class="special-sub">Presenta este código QR al ingresar a la planta.</div>
             <img class="approved-qr" id="approvedQR" src="" alt="QR de acceso">
@@ -215,47 +268,63 @@
             <div class="approved-token" id="approvedToken">—</div>
         </div>
 
-        <!-- ── PANTALLA DENEGADO ───────────────────────────── -->
+        <!-- PANTALLA DENEGADO -->
         <div class="special-screen" id="deniedScreen">
-            <div class="special-icon-ring ring-denied">❌</div>
-            <div class="special-title">Solicitud denegada</div>
-            <div class="special-sub">
-                Tu anfitrión rechazó la solicitud de acceso.<br>
-                Contáctalo directamente para más información.
+            <div class="special-icon-ring ring-denied">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="15" y1="9" x2="9" y2="15" />
+                    <line x1="9" y1="9" x2="15" y2="15" />
+                </svg>
             </div>
+            <div class="special-title">Solicitud denegada</div>
+            <div class="special-sub">Tu anfitrión rechazó la solicitud de acceso.<br>Contáctalo directamente para más
+                información.</div>
         </div>
 
     </div><!-- /card -->
 
-    <!-- ── BOTTOM ACTIONS ─────────────────────────────────── -->
+    <!-- BOTTOM ACTIONS -->
     <div class="bottom-actions" id="bottomActions">
         <button class="btn-back" id="btnBack" onclick="prevStep()" style="display:none;">← Atrás</button>
         <button class="btn-next" id="btnNext" onclick="nextStep()">Continuar →</button>
     </div>
 
-    <!-- ── NAVBAR (oculta mientras hay bottom actions; solo aparece en pantallas especiales) -->
+    <!-- NAVBAR (only visible on special screens) -->
     <nav class="navbar" id="mainNavbar" style="display:none;">
         <a href="index.html" class="nav-item">
-            <span class="nav-icon">🏠</span>
+            <div class="nav-icon-wrap">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                    <polyline points="9 22 9 12 15 12 15 22" />
+                </svg>
+            </div>
             <span class="nav-label">Inicio</span>
         </a>
         <a href="visitor_request.html" class="nav-item active">
-            <div class="nav-active-bar"></div>
-            <span class="nav-icon">📝</span>
+            <div class="nav-icon-wrap">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                    <polyline points="14 2 14 8 20 8" />
+                    <line x1="12" y1="18" x2="12" y2="12" />
+                    <line x1="9" y1="15" x2="15" y2="15" />
+                </svg>
+            </div>
             <span class="nav-label">Registro</span>
         </a>
         <a href="check_status.html" class="nav-item">
-            <span class="nav-icon">✓</span>
+            <div class="nav-icon-wrap">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <polyline points="9 11 12 14 22 4" />
+                    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+                </svg>
+            </div>
             <span class="nav-label">Estado</span>
         </a>
     </nav>
 
-    <!-- ── SCRIPTS (sin cambios funcionales) ─────────────── -->
     <script>
-        const socket = window.io
-            ? io(window.APP_CONFIG?.SOCKET_BASE || undefined)
-            : { emit: () => { }, on: () => { } };
-
+        const socket = window.io ? io(window.APP_CONFIG?.SOCKET_BASE || undefined) : { emit: () => { }, on: () => { } };
         const rid = 'REQ-' + Math.random().toString(36).substr(2, 9);
         let currentStep = 1;
         const totalSteps = 3;
@@ -287,43 +356,21 @@
         }
 
         function nextStep() {
-            if (currentStep === 1 && !document.getElementById('vDest').value.trim()) {
-                alert('Ingresa el destino o bodega'); return;
-            }
-            if (currentStep === 2 && !document.getElementById('vName').value.trim()) {
-                alert('Ingresa tu nombre completo'); return;
-            }
-            if (currentStep < totalSteps) {
-                currentStep++;
-                showStep(currentStep);
-                updateProgress();
-            } else {
-                enviar();
-            }
+            if (currentStep === 1 && !document.getElementById('vDest').value.trim()) { alert('Ingresa el destino o bodega'); return; }
+            if (currentStep === 2 && !document.getElementById('vName').value.trim()) { alert('Ingresa tu nombre completo'); return; }
+            if (currentStep < totalSteps) { currentStep++; showStep(currentStep); updateProgress(); }
+            else { enviar(); }
         }
 
         function prevStep() {
-            if (currentStep > 1) {
-                currentStep--;
-                showStep(currentStep);
-                updateProgress();
-            }
+            if (currentStep > 1) { currentStep--; showStep(currentStep); updateProgress(); }
         }
 
         document.getElementById('idFile').addEventListener('change', (e) => {
-            if (e.target.files.length > 0) {
-                const el = document.getElementById('idFileName');
-                el.textContent = '✓ ' + e.target.files[0].name;
-                el.style.display = 'block';
-            }
+            if (e.target.files.length > 0) { const el = document.getElementById('idFileName'); el.textContent = '✓ ' + e.target.files[0].name; el.style.display = 'block'; }
         });
-
         document.getElementById('vehicleFile').addEventListener('change', (e) => {
-            if (e.target.files.length > 0) {
-                const el = document.getElementById('vehicleFileName');
-                el.textContent = '✓ ' + e.target.files.length + ' archivo(s) seleccionado(s)';
-                el.style.display = 'block';
-            }
+            if (e.target.files.length > 0) { const el = document.getElementById('vehicleFileName'); el.textContent = '✓ ' + e.target.files.length + ' archivo(s) seleccionado(s)'; el.style.display = 'block'; }
         });
 
         async function enviar() {
@@ -339,41 +386,24 @@
                 visitType: document.querySelector('input[name="visitType"]:checked').value,
                 phone: document.getElementById('vPhone').value.trim()
             };
-
             if (!data.visitorName || !data.destination) { alert('Faltan datos requeridos'); return; }
-
             const btn = document.getElementById('btnNext');
-            btn.textContent = 'Enviando…';
-            btn.disabled = true;
-
+            btn.textContent = 'Enviando…'; btn.disabled = true;
             socket.emit('join-request', rid);
-
             try {
                 const res = await fetch(apiUrl('/api/access/request'), {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
                 });
-
-                if (!res.ok) {
-                    const err = await res.json().catch(() => ({}));
-                    alert(err.error || 'Error al enviar solicitud');
-                    btn.textContent = 'Generar pase ✓';
-                    btn.disabled = false;
-                    return;
-                }
-
-                // Show wait screen
+                if (!res.ok) { const err = await res.json().catch(() => ({})); alert(err.error || 'Error al enviar solicitud'); btn.textContent = 'Generar pase ✓'; btn.disabled = false; return; }
                 document.getElementById('bottomActions').style.display = 'none';
                 document.getElementById('progressWrap').style.display = 'none';
                 document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
                 document.getElementById('waitScreen').style.display = 'flex';
                 document.getElementById('mainNavbar').style.display = 'flex';
-
             } catch (e) {
                 alert('Error de conexión. Intenta de nuevo.');
-                btn.textContent = 'Generar pase ✓';
-                btn.disabled = false;
+                btn.textContent = 'Generar pase ✓'; btn.disabled = false;
             }
         }
 
@@ -381,19 +411,9 @@
             document.getElementById('waitScreen').style.display = 'none';
             if (d.status === 'approved') {
                 document.getElementById('approvedScreen').style.display = 'flex';
-                document.getElementById('approvedQR').src =
-                    d.qrCodeImage ||
-                    `https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=${d.token}&choe=UTF-8`;
+                document.getElementById('approvedQR').src = d.qrCodeImage || `https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=${d.token}&choe=UTF-8`;
                 document.getElementById('approvedToken').textContent = d.token;
-
-                const qrParams = new URLSearchParams({
-                    token: d.token,
-                    visitorName: document.getElementById('vName').value,
-                    empresa: document.getElementById('vEmp').value,
-                    planta: document.getElementById('vDest').value,
-                    accessType: document.querySelector('input[name="accessType"]:checked').value,
-                    generatedBy: document.getElementById('vHost').value
-                });
+                const qrParams = new URLSearchParams({ token: d.token, visitorName: document.getElementById('vName').value, empresa: document.getElementById('vEmp').value, planta: document.getElementById('vDest').value, accessType: document.querySelector('input[name="accessType"]:checked').value, generatedBy: document.getElementById('vHost').value });
                 setTimeout(() => window.open(`qr_display.html?${qrParams}`, '_blank'), 600);
             } else {
                 document.getElementById('deniedScreen').style.display = 'flex';

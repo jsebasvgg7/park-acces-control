@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
 
 /* ── TOKENS ─────────────────────────────────────────────── */
 :root {
@@ -30,8 +30,8 @@
 
   --shadow-card: 0 20px 52px rgba(0, 0, 0, 0.22), 0 4px 14px rgba(0, 0, 0, 0.10);
 
-  --font-display: 'Syne', system-ui, sans-serif;
-  --font-body: 'DM Sans', system-ui, sans-serif;
+  --font-display: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-body: 'Plus Jakarta Sans', system-ui, sans-serif;
   --font-mono: 'Courier New', Courier, monospace;
 
   --transition: 0.22s ease;
@@ -64,22 +64,13 @@ body {
   position: relative;
 }
 
-/* Subtle pattern overlay on background */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   background-image:
-    repeating-linear-gradient(0deg,
-      transparent,
-      transparent 39px,
-      rgba(255, 255, 255, 0.025) 39px,
-      rgba(255, 255, 255, 0.025) 40px),
-    repeating-linear-gradient(90deg,
-      transparent,
-      transparent 39px,
-      rgba(255, 255, 255, 0.025) 39px,
-      rgba(255, 255, 255, 0.025) 40px);
+    repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(255, 255, 255, .025) 39px, rgba(255, 255, 255, .025) 40px),
+    repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(255, 255, 255, .025) 39px, rgba(255, 255, 255, .025) 40px);
   pointer-events: none;
   z-index: 0;
 }
@@ -115,13 +106,13 @@ body::before {
   width: auto;
   object-fit: contain;
   filter: brightness(0) invert(1);
-  opacity: 0.90;
+  opacity: .90;
 }
 
 .logo-bar img:first-child {
   margin-right: 18px;
   padding-right: 18px;
-  border-right: 1.5px solid rgba(255, 255, 255, 0.25);
+  border-right: 1.5px solid rgba(255, 255, 255, .25);
 }
 
 .page-title-block {
@@ -133,16 +124,16 @@ body::before {
   font-size: 1.6rem;
   font-weight: 800;
   color: #ffffff;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
   line-height: 1.15;
   margin-bottom: 4px;
 }
 
 .page-title-block p {
   font-size: 0.82rem;
-  color: rgba(255, 255, 255, 0.60);
+  color: rgba(255, 255, 255, .60);
   font-weight: 400;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.02em;
 }
 
 /* ── MAIN CARD ──────────────────────────────────────────── */
@@ -151,7 +142,7 @@ body::before {
   border-radius: var(--radius-card);
   box-shadow: var(--shadow-card);
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, .5);
 }
 
 /* ── QUERY SECTION ──────────────────────────────────────── */
@@ -164,7 +155,6 @@ body::before {
   padding-bottom: 26px;
 }
 
-/* Divider between two sections */
 .section-divider {
   display: flex;
   align-items: center;
@@ -190,7 +180,7 @@ body::before {
   justify-content: center;
   font-size: 11px;
   color: var(--text-hint);
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.04em;
   flex-shrink: 0;
 }
@@ -198,10 +188,10 @@ body::before {
 /* ── FIELD LABEL ────────────────────────────────────────── */
 .field-label {
   display: block;
-  font-size: 0.75rem;
+  font-size: 0.70rem;
   font-weight: 700;
   color: var(--brand);
-  letter-spacing: 0.08em;
+  letter-spacing: 0.09em;
   text-transform: uppercase;
   margin-bottom: 8px;
 }
@@ -218,7 +208,7 @@ body::before {
   border: 1.5px solid var(--border);
   border-radius: var(--radius-sm);
   font-family: var(--font-body);
-  font-size: 0.97rem;
+  font-size: 0.95rem;
   color: var(--text);
   background: #FAFCFB;
   transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
@@ -229,7 +219,7 @@ body::before {
   outline: none;
   border-color: var(--brand);
   background: #fff;
-  box-shadow: 0 0 0 3.5px rgba(0, 89, 76, 0.09);
+  box-shadow: 0 0 0 3.5px rgba(0, 89, 76, .09);
 }
 
 .input-group input::placeholder {
@@ -247,11 +237,11 @@ body::before {
   border: none;
   border-radius: var(--radius-btn);
   font-family: var(--font-display);
-  font-size: 0.88rem;
+  font-size: 0.875rem;
   font-weight: 700;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
   cursor: pointer;
-  transition: background var(--transition), box-shadow var(--transition), transform 0.14s;
+  transition: background var(--transition), box-shadow var(--transition), transform .14s;
   position: relative;
   overflow: hidden;
 }
@@ -260,9 +250,9 @@ body::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(105deg, transparent 40%, rgba(255, 255, 255, 0.15) 50%, transparent 60%);
+  background: linear-gradient(105deg, transparent 40%, rgba(255, 255, 255, .15) 50%, transparent 60%);
   transform: translateX(-100%);
-  transition: transform 0.5s ease;
+  transition: transform .5s ease;
 }
 
 .btn:hover::after {
@@ -276,23 +266,23 @@ body::before {
 .btn-brand {
   background: var(--brand);
   color: #fff;
-  box-shadow: 0 5px 18px rgba(0, 89, 76, 0.28);
+  box-shadow: 0 5px 18px rgba(0, 89, 76, .28);
 }
 
 .btn-brand:hover {
   background: var(--brand-dark);
-  box-shadow: 0 10px 26px rgba(0, 54, 45, 0.36);
+  box-shadow: 0 10px 26px rgba(0, 54, 45, .36);
 }
 
 .btn-blue {
   background: var(--accent-blue);
   color: #fff;
-  box-shadow: 0 5px 18px rgba(21, 101, 192, 0.26);
+  box-shadow: 0 5px 18px rgba(21, 101, 192, .26);
 }
 
 .btn-blue:hover {
   background: var(--accent-blue-dark);
-  box-shadow: 0 10px 26px rgba(13, 71, 161, 0.34);
+  box-shadow: 0 10px 26px rgba(13, 71, 161, .34);
 }
 
 /* ── RESULT BOXES ───────────────────────────────────────── */
@@ -305,7 +295,7 @@ body::before {
   padding: 18px 20px;
   display: none;
   border: 1.5px solid transparent;
-  animation: slideIn 0.28s ease forwards;
+  animation: slideIn .28s ease forwards;
 }
 
 @keyframes slideIn {
@@ -344,29 +334,34 @@ body::before {
   color: #1E3A5F;
 }
 
-/* Result status header */
 .result-status-head {
   display: flex;
   align-items: center;
   gap: 10px;
   margin-bottom: 14px;
   padding-bottom: 12px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+  border-bottom: 1px solid rgba(0, 0, 0, .07);
 }
 
 .result-status-icon {
-  font-size: 1.4rem;
+  display: flex;
   flex-shrink: 0;
+}
+
+.result-status-icon svg {
+  width: 22px;
+  height: 22px;
+  stroke-width: 2;
+  fill: none;
 }
 
 .result-status-label {
   font-family: var(--font-display);
   font-size: 1rem;
   font-weight: 700;
-  letter-spacing: 0.01em;
+  letter-spacing: -0.01em;
 }
 
-/* Info rows */
 .info-row {
   display: flex;
   justify-content: space-between;
@@ -379,7 +374,7 @@ body::before {
 
 .info-row .info-key {
   font-weight: 600;
-  opacity: 0.65;
+  opacity: .65;
   white-space: nowrap;
   flex-shrink: 0;
 }
@@ -390,13 +385,12 @@ body::before {
   word-break: break-word;
 }
 
-/* Token monospace display */
 .token-chip {
   font-family: var(--font-mono);
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   font-weight: 700;
-  letter-spacing: 0.12em;
-  background: rgba(0, 0, 0, 0.06);
+  letter-spacing: .12em;
+  background: rgba(0, 0, 0, .06);
   border-radius: var(--radius-xs);
   padding: 6px 12px;
   display: inline-block;
@@ -404,12 +398,11 @@ body::before {
   word-break: break-all;
 }
 
-/* Waiting notice */
 .result-notice {
   margin-top: 12px;
-  font-size: 0.82rem;
+  font-size: .82rem;
   font-style: italic;
-  opacity: 0.65;
+  opacity: .65;
 }
 
 /* ── ERROR BOX ──────────────────────────────────────────── */
@@ -420,10 +413,10 @@ body::before {
   color: #7F1D1D;
   padding: 13px 16px;
   border-radius: var(--radius-sm);
-  font-size: 0.875rem;
+  font-size: .875rem;
   font-weight: 500;
   display: none;
-  animation: slideIn 0.22s ease forwards;
+  animation: slideIn .22s ease forwards;
 }
 
 /* ── NAVBAR ─────────────────────────────────────────────── */
@@ -432,12 +425,17 @@ body::before {
   bottom: 0;
   left: 0;
   right: 0;
-  background: #fff;
-  border-top: 1px solid var(--border-light);
+  z-index: 300;
+  background: rgba(255, 255, 255, .96);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid rgba(0, 89, 76, .10);
+  box-shadow: 0 -4px 24px rgba(0, 0, 0, .07);
   display: flex;
   justify-content: space-around;
-  padding: 10px 0 16px;
-  z-index: 200;
+  align-items: stretch;
+  padding: 0;
+  height: 64px;
 }
 
 .nav-item {
@@ -445,43 +443,72 @@ body::before {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 4px;
   flex: 1;
-  transition: opacity var(--transition);
+  position: relative;
+  padding: 8px 0 10px;
+  transition: background .18s ease;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .nav-item:active {
-  opacity: 0.7;
+  background: rgba(0, 89, 76, .05);
 }
 
-.nav-icon {
-  font-size: 1.25rem;
-  line-height: 1;
+.nav-item.active::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 32px;
+  height: 3px;
+  background: var(--brand);
+  border-radius: 0 0 4px 4px;
+}
+
+.nav-icon-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 26px;
+}
+
+.nav-icon-wrap svg {
+  width: 20px;
+  height: 20px;
+  stroke: var(--text-muted);
+  stroke-width: 1.8;
+  fill: none;
+  transition: stroke .18s ease, transform .22s cubic-bezier(.34, 1.56, .64, 1);
+}
+
+.nav-item.active .nav-icon-wrap svg {
+  stroke: var(--brand);
+  transform: scale(1.12);
 }
 
 .nav-label {
-  font-size: 0.68rem;
+  font-family: var(--font-body);
+  font-size: .66rem;
   font-weight: 600;
   color: var(--text-muted);
-  letter-spacing: 0.04em;
+  letter-spacing: .03em;
+  transition: color .18s ease;
+  line-height: 1;
 }
 
 .nav-item.active .nav-label {
   color: var(--brand);
 }
 
-.nav-active-bar {
-  width: 20px;
-  height: 2.5px;
-  background: var(--brand);
-  border-radius: 2px;
-  margin-bottom: -2px;
-}
-
 /* ── RESPONSIVE ─────────────────────────────────────────── */
 @media (max-width: 520px) {
   body {
-    padding: 20px 12px 96px;
+    padding: 20px 12px 100px;
   }
 
   .page-header {

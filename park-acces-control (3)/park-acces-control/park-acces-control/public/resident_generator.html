@@ -12,9 +12,7 @@
 
 <body>
 
-    <!-- ══════════════════════════════════════════════════════
-       HEADER
-  ═══════════════════════════════════════════════════════ -->
+    <!-- HEADER -->
     <div class="header" id="mainHeader">
         <div class="header-logos">
             <img src="img/logo-prologis.png" alt="Prologis">
@@ -26,32 +24,37 @@
         </div>
     </div>
 
-    <!-- ══════════════════════════════════════════════════════
-       NOT AUTH
-  ═══════════════════════════════════════════════════════ -->
+    <!-- NOT AUTH -->
     <div class="not-auth-screen" id="notAuthScreen" style="display:none;">
-        <div class="not-auth-icon">🔒</div>
+        <div class="not-auth-icon">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+            </svg>
+        </div>
         <div class="not-auth-title">Acceso restringido</div>
         <div class="not-auth-sub">Inicia sesión para ver el panel de residente</div>
-        <button class="btn-primary" onclick="window.location.href='index.html'">
-            Ir al inicio de sesión
-        </button>
+        <button class="btn-primary" onclick="window.location.href='index.html'">Ir al inicio de sesión</button>
     </div>
 
-    <!-- ══════════════════════════════════════════════════════
-       MAIN PANEL
-  ═══════════════════════════════════════════════════════ -->
+    <!-- MAIN PANEL -->
     <div class="main" id="mainPanel" style="display:none;">
 
-        <!-- Generar pase rápido -->
         <div class="section-label label-generate">Generar pase rápido</div>
 
         <div class="generate-card">
             <input type="text" id="vName" placeholder="Nombre del visitante">
             <input type="text" id="vDestination" placeholder="Bodega / Destino">
-            <button class="btn-generate" onclick="generarManual()">Generar QR</button>
-
-            <!-- Mini preview último QR -->
+            <button class="btn-generate" onclick="generarManual()">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+                    style="width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2.2;margin-right:8px;display:inline-block;vertical-align:middle">
+                    <rect x="3" y="3" width="7" height="7" />
+                    <rect x="14" y="3" width="7" height="7" />
+                    <rect x="14" y="14" width="7" height="7" />
+                    <path d="M3 17h4v4M3 14h7v3" />
+                </svg>
+                Generar QR
+            </button>
             <div class="last-qr-mini" id="lastQrMini">
                 <img id="lastQrImg" src="" alt="QR">
                 <div>
@@ -61,82 +64,82 @@
             </div>
         </div>
 
-        <!-- Solicitudes pendientes -->
         <div class="section-label label-pending">
             Solicitudes pendientes
             <span class="count-badge" id="pendingCount"></span>
         </div>
 
         <div class="pending-list-wrap" id="listaPendientes">
-            <!-- Loading skeleton -->
             <div class="list-card">
                 <div class="skeleton-wrap">
-                    <div class="skeleton" style="height:14px; width:55%;"></div>
-                    <div class="skeleton" style="height:12px; width:80%;"></div>
-                    <div class="skeleton" style="height:12px; width:40%;"></div>
+                    <div class="skeleton" style="height:14px;width:55%;"></div>
+                    <div class="skeleton" style="height:12px;width:80%;"></div>
+                    <div class="skeleton" style="height:12px;width:40%;"></div>
                 </div>
             </div>
         </div>
 
-        <!-- Pases activos -->
         <div class="section-label label-activos">Pases activos</div>
-
         <div class="list-card" id="cardActivos">
             <div class="skeleton-wrap">
-                <div class="skeleton" style="height:13px; width:60%;"></div>
-                <div class="skeleton" style="height:11px; width:45%;"></div>
+                <div class="skeleton" style="height:13px;width:60%;"></div>
+                <div class="skeleton" style="height:11px;width:45%;"></div>
             </div>
         </div>
 
-        <!-- Historial reciente -->
         <div class="section-label label-historial">Historial reciente</div>
-
         <div class="list-card" id="cardHistorial">
             <div class="skeleton-wrap">
-                <div class="skeleton" style="height:13px; width:65%;"></div>
-                <div class="skeleton" style="height:11px; width:50%;"></div>
+                <div class="skeleton" style="height:13px;width:65%;"></div>
+                <div class="skeleton" style="height:11px;width:50%;"></div>
             </div>
         </div>
 
     </div><!-- /main -->
 
-    <!-- ══════════════════════════════════════════════════════
-       NAVBAR
-  ═══════════════════════════════════════════════════════ -->
+    <!-- NAVBAR -->
     <nav class="navbar">
         <a href="index.html" class="nav-item">
             <div class="nav-icon-wrap">
-                <span class="nav-icon">🏠</span>
+                <!-- home -->
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                    <polyline points="9 22 9 12 15 12 15 22" />
+                </svg>
             </div>
             <span class="nav-label">Inicio</span>
         </a>
         <a href="visitor_request.html" class="nav-item">
             <div class="nav-icon-wrap">
-                <span class="nav-icon">📝</span>
+                <!-- file-plus -->
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                    <polyline points="14 2 14 8 20 8" />
+                    <line x1="12" y1="18" x2="12" y2="12" />
+                    <line x1="9" y1="15" x2="15" y2="15" />
+                </svg>
             </div>
             <span class="nav-label">Registro</span>
         </a>
         <a href="resident_generator.html" class="nav-item active">
             <div class="nav-icon-wrap">
-                <div class="nav-active-indicator"></div>
-                <span class="nav-icon">📊</span>
+                <!-- layout-dashboard -->
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="3" y="3" width="7" height="9" />
+                    <rect x="14" y="3" width="7" height="5" />
+                    <rect x="14" y="12" width="7" height="9" />
+                    <rect x="3" y="16" width="7" height="5" />
+                </svg>
                 <span class="notif-dot" id="navNotifDot"></span>
             </div>
             <span class="nav-label">Panel</span>
         </a>
     </nav>
 
-    <!-- ══════════════════════════════════════════════════════
-       SCRIPTS (sin cambios funcionales)
-  ═══════════════════════════════════════════════════════ -->
     <script>
-        const socket = window.io
-            ? io(window.APP_CONFIG?.SOCKET_BASE || undefined)
-            : { emit: () => { }, on: () => { } };
-
+        const socket = window.io ? io(window.APP_CONFIG?.SOCKET_BASE || undefined) : { emit: () => { }, on: () => { } };
         let authToken = localStorage.getItem('authToken');
         let username = localStorage.getItem('username');
-        let userType = localStorage.getItem('userType') || 'resident';
         let lastQrParams = null;
 
         function getAuthHeaders() {
@@ -144,7 +147,11 @@
             return { 'Content-Type': 'application/json', 'Authorization': `Bearer ${authToken}` };
         }
 
-        /* ── INIT ───────────────────────────────────────────── */
+        /* SVG icons for empty states */
+        const iconCard = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>`;
+        const iconClock = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`;
+        const iconCheck = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polyline points="20 6 9 17 4 12"/></svg>`;
+
         function initPage() {
             if (!authToken) {
                 document.getElementById('notAuthScreen').style.display = 'flex';
@@ -160,52 +167,36 @@
             setInterval(refrescar, 5000);
         }
 
-        /* ── AUTH ───────────────────────────────────────────── */
         function logout() {
             if (!confirm('¿Cerrar sesión?')) return;
             ['authToken', 'username', 'userType'].forEach(k => localStorage.removeItem(k));
             window.location.href = 'index.html';
         }
 
-        /* ── HELPERS ────────────────────────────────────────── */
         function getInitials(name) {
             if (!name) return '?';
             return name.split(' ').slice(0, 2).map(n => n[0]).join('').toUpperCase();
         }
 
-        /* ── GENERAR MANUAL ─────────────────────────────────── */
         async function generarManual() {
             const vName = document.getElementById('vName').value.trim();
             const vDestination = document.getElementById('vDestination').value.trim();
             if (!vName) { alert('Ingresa el nombre del visitante'); return; }
-
             const headers = getAuthHeaders();
             if (!headers) { window.location.href = 'index.html'; return; }
-
             const btn = document.querySelector('.btn-generate');
-            btn.textContent = 'Generando…';
+            btn.innerHTML = '<svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:#fff;fill:none;stroke-width:2;margin-right:8px;animation:spin 1s linear infinite;display:inline-block;vertical-align:middle"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg> Generando…';
             btn.disabled = true;
-
             try {
                 const res = await fetch(apiUrl('/api/access/generate-manual'), {
                     method: 'POST', headers,
-                    body: JSON.stringify({
-                        visitorName: vName,
-                        destination: vDestination || 'Manual',
-                        hostName: username || 'Residente',
-                        accessType: 'single',
-                        visitType: 'visita'
-                    })
+                    body: JSON.stringify({ visitorName: vName, destination: vDestination || 'Manual', hostName: username || 'Residente', accessType: 'single', visitType: 'visita' })
                 });
-
                 if (res.status === 401) { window.location.href = 'index.html'; return; }
-
                 const data = await res.json();
-
                 if (data.success && data.token) {
                     document.getElementById('vName').value = '';
                     document.getElementById('vDestination').value = '';
-
                     if (data.qrCodeImage) {
                         sessionStorage.setItem('qrCodeImage', data.qrCodeImage);
                         const mini = document.getElementById('lastQrMini');
@@ -214,85 +205,49 @@
                         mini.style.display = 'flex';
                         mini.onclick = () => abrirQR(data);
                     }
-
                     lastQrParams = data;
-                    const qrParams = new URLSearchParams({
-                        token: data.token,
-                        visitorName: data.visitorName || vName,
-                        empresa: 'Manual',
-                        planta: data.destination || vDestination,
-                        accessType: data.accessType,
-                        generatedBy: username || 'Residente'
-                    });
+                    const qrParams = new URLSearchParams({ token: data.token, visitorName: data.visitorName || vName, empresa: 'Manual', planta: data.destination || vDestination, accessType: data.accessType, generatedBy: username || 'Residente' });
                     window.open(`qr_display.html?${qrParams}`, '_blank');
                     refrescar();
                 }
-            } catch (e) {
-                alert('Error al generar pase');
-            } finally {
-                btn.textContent = 'Generar QR';
+            } catch (e) { alert('Error al generar pase'); }
+            finally {
+                btn.innerHTML = '<svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2.2;margin-right:8px;display:inline-block;vertical-align:middle"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><path d="M3 17h4v4M3 14h7v3"/></svg> Generar QR';
                 btn.disabled = false;
             }
         }
 
         function abrirQR(data) {
-            const qrParams = new URLSearchParams({
-                token: data.token,
-                visitorName: data.visitorName || '',
-                empresa: data.empresa || 'Manual',
-                planta: data.destination || '',
-                accessType: data.accessType || 'single',
-                generatedBy: username || 'Residente'
-            });
+            const qrParams = new URLSearchParams({ token: data.token, visitorName: data.visitorName || '', empresa: data.empresa || 'Manual', planta: data.destination || '', accessType: data.accessType || 'single', generatedBy: username || 'Residente' });
             window.open(`qr_display.html?${qrParams}`, '_blank');
         }
 
-        /* ── REFRESH ALL ────────────────────────────────────── */
         async function refrescar() {
             if (!authToken) return;
             const headers = getAuthHeaders();
             if (!headers) return;
-
             try {
                 const [resA, resH, resP] = await Promise.all([
                     fetch(apiUrl('/api/access/active'), { headers }),
                     fetch(apiUrl('/api/access/history'), { headers }),
                     fetch(apiUrl('/api/access/pending'), { headers })
                 ]);
-
                 if (resA.status === 401) { window.location.href = 'index.html'; return; }
-
-                const [activos, hist, pends] = await Promise.all([
-                    resA.json(), resH.json(), resP.json()
-                ]);
-
+                const [activos, hist, pends] = await Promise.all([resA.json(), resH.json(), resP.json()]);
                 renderActivos(activos);
                 renderHistorial(hist);
                 renderPendientes(pends);
-
                 const dot = document.getElementById('navNotifDot');
                 const countBadge = document.getElementById('pendingCount');
-
-                if (pends.length > 0) {
-                    dot.style.display = 'block';
-                    countBadge.style.display = 'inline-flex';
-                    countBadge.textContent = pends.length;
-                } else {
-                    dot.style.display = 'none';
-                    countBadge.style.display = 'none';
-                }
+                if (pends.length > 0) { dot.style.display = 'block'; countBadge.style.display = 'inline-flex'; countBadge.textContent = pends.length; }
+                else { dot.style.display = 'none'; countBadge.style.display = 'none'; }
             } catch (e) { console.error(e); }
         }
 
-        /* ── RENDER: ACTIVOS ────────────────────────────────── */
         function renderActivos(activos) {
             const el = document.getElementById('cardActivos');
             if (!activos.length) {
-                el.innerHTML = `
-          <div class="empty-state">
-            <div class="empty-state-icon">🪪</div>
-            <div class="empty-state-text">No hay pases activos</div>
-          </div>`;
+                el.innerHTML = `<div class="empty-state"><div class="empty-state-icon">${iconCard}</div><div class="empty-state-text">No hay pases activos</div></div>`;
                 return;
             }
             el.innerHTML = activos.map(a => `
@@ -309,43 +264,27 @@
       `).join('');
         }
 
-        /* ── RENDER: HISTORIAL ──────────────────────────────── */
         function renderHistorial(hist) {
             const el = document.getElementById('cardHistorial');
             if (!hist.length) {
-                el.innerHTML = `
-          <div class="empty-state">
-            <div class="empty-state-icon">📋</div>
-            <div class="empty-state-text">Sin historial aún</div>
-          </div>`;
+                el.innerHTML = `<div class="empty-state"><div class="empty-state-icon">${iconClock}</div><div class="empty-state-text">Sin historial aún</div></div>`;
                 return;
             }
             el.innerHTML = hist.slice(0, 10).map(h => `
         <div class="history-item">
-          <div class="history-icon">✓</div>
+          <div class="history-icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polyline points="20 6 9 17 4 12"/></svg></div>
           <div class="history-info">
             <div class="history-name">${h.visitorName}</div>
-            <div class="history-time">
-              ${h.destination || '—'} · ${new Date(h.usedAt || h.updatedAt).toLocaleString('es', {
-                day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit'
-            })}
-            </div>
+            <div class="history-time">${h.destination || '—'} · ${new Date(h.usedAt || h.updatedAt).toLocaleString('es', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })}</div>
           </div>
         </div>
       `).join('');
         }
 
-        /* ── RENDER: PENDIENTES ─────────────────────────────── */
         function renderPendientes(pends) {
             const el = document.getElementById('listaPendientes');
             if (!pends.length) {
-                el.innerHTML = `
-          <div class="list-card">
-            <div class="empty-state">
-              <div class="empty-state-icon">✅</div>
-              <div class="empty-state-text">No hay solicitudes pendientes</div>
-            </div>
-          </div>`;
+                el.innerHTML = `<div class="list-card"><div class="empty-state"><div class="empty-state-icon">${iconCheck}</div><div class="empty-state-text">No hay solicitudes pendientes</div></div></div>`;
                 return;
             }
             el.innerHTML = pends.map(p => `
@@ -353,61 +292,49 @@
           <div class="pending-header">
             <div class="pending-name">${p.visitorName}</div>
             <div class="pending-meta">
-              <span class="meta-text">📍 ${p.destination || '—'}</span>
-              ${p.placas ? `<span class="meta-text">🚗 ${p.placas}</span>` : ''}
-              <span class="meta-chip ${p.accessType === 'frequent' ? '' : 'chip-blue'}">
-                ${p.accessType === 'frequent' ? 'Frecuente' : 'Temporal'}
-              </span>
+              <span class="meta-text">${p.destination || '—'}</span>
+              ${p.placas ? `<span class="meta-text">${p.placas}</span>` : ''}
+              <span class="meta-chip ${p.accessType === 'frequent' ? '' : 'chip-blue'}">${p.accessType === 'frequent' ? 'Frecuente' : 'Temporal'}</span>
               ${p.visitType ? `<span class="meta-chip">${p.visitType}</span>` : ''}
             </div>
             ${p.hostName ? `<div class="pending-host">Anfitrión: ${p.hostName}</div>` : ''}
           </div>
           <div class="pending-actions">
-            <button class="btn-approve" onclick="resolver('${p._id}','approve')">✓ Aprobar</button>
-            <button class="btn-deny"    onclick="resolver('${p._id}','deny')">✗ Denegar</button>
+            <button class="btn-approve" onclick="resolver('${p._id}','approve')">
+              <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5;display:inline-block;vertical-align:middle;margin-right:6px"><polyline points="20 6 9 17 4 12"/></svg>Aprobar
+            </button>
+            <button class="btn-deny" onclick="resolver('${p._id}','deny')">
+              <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5;display:inline-block;vertical-align:middle;margin-right:6px"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Denegar
+            </button>
           </div>
         </div>
       `).join('');
         }
 
-        /* ── RESOLVER SOLICITUD ─────────────────────────────── */
         async function resolver(id, action) {
             const headers = getAuthHeaders();
             if (!headers) { window.location.href = 'index.html'; return; }
-
             const url = apiUrl(`/api/access/${action === 'approve' ? 'approve' : 'deny'}/${id}`);
             try {
                 const res = await fetch(url, { method: 'POST', headers });
                 if (!res.ok) { if (res.status === 401) window.location.href = 'index.html'; return; }
-
                 const data = await res.json();
-
                 if (action === 'approve' && data.token) {
-                    socket.emit('approve-access', {
-                        requestId: data.requestId,
-                        token: data.token,
-                        qrCodeImage: data.qrCodeImage
-                    });
+                    socket.emit('approve-access', { requestId: data.requestId, token: data.token, qrCodeImage: data.qrCodeImage });
                     if (data.qrCodeImage) sessionStorage.setItem('qrCodeImage', data.qrCodeImage);
-
-                    const qrParams = new URLSearchParams({
-                        token: data.token,
-                        visitorName: data.visitorName || '',
-                        empresa: data.empresa || '',
-                        planta: data.destination || '',
-                        accessType: data.accessType || 'single',
-                        generatedBy: username || 'Residente'
-                    });
+                    const qrParams = new URLSearchParams({ token: data.token, visitorName: data.visitorName || '', empresa: data.empresa || '', planta: data.destination || '', accessType: data.accessType || 'single', generatedBy: username || 'Residente' });
                     window.open(`qr_display.html?${qrParams}`, '_blank');
                 } else if (action === 'deny' && data.requestId) {
                     socket.emit('deny-access', data.requestId);
                 }
-
                 refrescar();
-            } catch (e) {
-                alert('Error al procesar la solicitud');
-            }
+            } catch (e) { alert('Error al procesar la solicitud'); }
         }
+
+        /* Spin keyframe for loading button */
+        const style = document.createElement('style');
+        style.textContent = '@keyframes spin { to { transform: rotate(360deg); } }';
+        document.head.appendChild(style);
 
         initPage();
     </script>

@@ -2,239 +2,197 @@
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Consultar Estado — Acceso</title>
-    <link rel="stylesheet" href="check_status.css">
-    <script src="api-config.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Consultar Estado — Acceso</title>
+  <link rel="stylesheet" href="check_status.css">
+  <script src="api-config.js"></script>
 </head>
 
 <body>
 
-    <div class="page-wrapper">
+  <div class="page-wrapper">
 
-        <!-- ── PAGE HEADER ──────────────────────────────────── -->
-        <div class="page-header">
-            <div class="logo-bar">
-                <img src="img/logo-prologis.png" alt="Prologis">
-                <img src="img/logo-martel.png" alt="Martel">
-            </div>
-            <div class="page-title-block">
-                <h1>Consultar Estado</h1>
-                <p>Ingresa tu código de solicitud o token para ver el estado</p>
-            </div>
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+      <div class="logo-bar">
+        <img src="img/logo-prologis.png" alt="Prologis">
+        <img src="img/logo-martel.png" alt="Martel">
+      </div>
+      <div class="page-title-block">
+        <h1>Consultar Estado</h1>
+        <p>Ingresa tu código de solicitud o token para ver el estado</p>
+      </div>
+    </div>
+
+    <!-- MAIN CARD -->
+    <div class="main-card">
+
+      <!-- Solicitud section -->
+      <div class="query-section">
+        <label class="field-label">Código de Solicitud (REQ-xxxxxx)</label>
+        <div class="input-group">
+          <input type="text" id="requestId" placeholder="ej: REQ-abc123">
         </div>
+        <button class="btn btn-brand" onclick="consultarSolicitud()">
+          Consultar Solicitud
+        </button>
+      </div>
 
-        <!-- ── MAIN CARD ─────────────────────────────────────── -->
-        <div class="main-card">
+      <!-- Divider -->
+      <div class="section-divider">
+        <div class="divider-line"></div>
+        <div class="divider-circle">O</div>
+        <div class="divider-line"></div>
+      </div>
 
-            <!-- Solicitud section -->
-            <div class="query-section">
-                <label class="field-label">Código de Solicitud (REQ-xxxxxx)</label>
-                <div class="input-group">
-                    <input type="text" id="requestId" placeholder="ej: REQ-abc123">
-                </div>
-                <button class="btn btn-brand" onclick="consultarSolicitud()">
-                    Consultar Solicitud
-                </button>
-            </div>
+      <!-- Token section -->
+      <div class="query-section">
+        <label class="field-label">Token de Acceso</label>
+        <div class="input-group">
+          <input type="text" id="tokenInput" placeholder="Tu token de 8 dígitos">
+        </div>
+        <button class="btn btn-blue" onclick="consultarToken()">
+          Consultar Token
+        </button>
+      </div>
 
-            <!-- Divider -->
-            <div class="section-divider">
-                <div class="divider-line"></div>
-                <div class="divider-circle">O</div>
-                <div class="divider-line"></div>
-            </div>
+      <!-- Error box -->
+      <div id="errorBox" class="error-box"></div>
 
-            <!-- Token section -->
-            <div class="query-section">
-                <label class="field-label">Token de Acceso</label>
-                <div class="input-group">
-                    <input type="text" id="tokenInput" placeholder="Tu token de 8 dígitos">
-                </div>
-                <button class="btn btn-blue" onclick="consultarToken()">
-                    Consultar Token
-                </button>
-            </div>
+      <!-- Result box -->
+      <div class="result-wrap">
+        <div id="statusBox" class="result-box">
+          <div id="statusContent"></div>
+        </div>
+      </div>
 
-            <!-- Error box -->
-            <div id="errorBox" class="error-box"></div>
+    </div><!-- /main-card -->
+  </div><!-- /page-wrapper -->
 
-            <!-- Result box -->
-            <div class="result-wrap">
-                <div id="statusBox" class="result-box">
-                    <div id="statusContent"></div>
-                </div>
-            </div>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="index.html" class="nav-item">
+      <div class="nav-icon-wrap">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+          <polyline points="9 22 9 12 15 12 15 22" />
+        </svg>
+      </div>
+      <span class="nav-label">Inicio</span>
+    </a>
+    <a href="visitor_request.html" class="nav-item">
+      <div class="nav-icon-wrap">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+          <polyline points="14 2 14 8 20 8" />
+          <line x1="16" y1="13" x2="8" y2="13" />
+          <line x1="16" y1="17" x2="8" y2="17" />
+          <polyline points="10 9 9 9 8 9" />
+        </svg>
+      </div>
+      <span class="nav-label">Registro</span>
+    </a>
+    <a href="check_status.html" class="nav-item active">
+      <div class="nav-icon-wrap">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <polyline points="9 11 12 14 22 4" />
+          <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+        </svg>
+      </div>
+      <span class="nav-label">Estado</span>
+    </a>
+  </nav>
 
-        </div><!-- /main-card -->
+  <script>
+    /* ── Iconos SVG para resultados ── */
+    const statusIcons = {
+      pending: `<svg viewBox="0 0 24 24" style="stroke:#D97706"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
+      approved: `<svg viewBox="0 0 24 24" style="stroke:#16A34A"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>`,
+      denied: `<svg viewBox="0 0 24 24" style="stroke:#DC2626"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>`,
+      used: `<svg viewBox="0 0 24 24" style="stroke:#1D4ED8"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>`,
+    };
 
-    </div><!-- /page-wrapper -->
-
-    <!-- ── NAVBAR ─────────────────────────────────────────── -->
-    <nav class="navbar">
-        <a href="index.html" class="nav-item">
-            <span class="nav-icon">🏠</span>
-            <span class="nav-label">Inicio</span>
-        </a>
-        <a href="visitor_request.html" class="nav-item">
-            <span class="nav-icon">📝</span>
-            <span class="nav-label">Registro</span>
-        </a>
-        <a href="check_status.html" class="nav-item active">
-            <div class="nav-active-bar"></div>
-            <span class="nav-icon">✓</span>
-            <span class="nav-label">Estado</span>
-        </a>
-    </nav>
-
-    <!-- ── SCRIPTS (sin cambios funcionales) ─────────────── -->
-    <script>
-        function consultarSolicitud() {
-            const requestId = document.getElementById('requestId').value.trim();
-            if (!requestId) { mostrarError('Por favor ingresa tu código de solicitud'); return; }
-
-            fetch(apiUrl(`/api/access/request-status/${requestId}`))
-                .then(r => r.json())
-                .then(d => {
-                    ocultarError();
-                    if (d.found) {
-                        const statusText = d.status === 'pending' ? 'Pendiente de Aprobación' : d.status;
-                        const tipoAcceso = d.accessType === 'frequent'
-                            ? '🔁 Acceso Frecuente (múltiples entradas)'
-                            : '⏱️ Acceso Temporal (una entrada/salida)';
-                        const icons = { pending: '⏳', approved: '✅', denied: '❌', used: '🔒' };
-
-                        document.getElementById('statusBox').className = 'result-box status-' + d.status;
-                        document.getElementById('statusContent').innerHTML = `
+    function consultarSolicitud() {
+      const requestId = document.getElementById('requestId').value.trim();
+      if (!requestId) { mostrarError('Por favor ingresa tu código de solicitud'); return; }
+      fetch(apiUrl(`/api/access/request-status/${requestId}`))
+        .then(r => r.json())
+        .then(d => {
+          ocultarError();
+          if (d.found) {
+            const statusText = d.status === 'pending' ? 'Pendiente de Aprobación' : d.status;
+            const tipoAcceso = d.accessType === 'frequent' ? 'Acceso Frecuente (múltiples entradas)' : 'Acceso Temporal (una entrada/salida)';
+            document.getElementById('statusBox').className = 'result-box status-' + d.status;
+            document.getElementById('statusContent').innerHTML = `
               <div class="result-status-head">
-                <span class="result-status-icon">${icons[d.status] || '📋'}</span>
+                <span class="result-status-icon">${statusIcons[d.status] || ''}</span>
                 <span class="result-status-label">${statusText}</span>
               </div>
-              <div class="info-row">
-                <span class="info-key">Nombre</span>
-                <span class="info-val">${d.visitorName}</span>
-              </div>
-              <div class="info-row">
-                <span class="info-key">Destino</span>
-                <span class="info-val">${d.destination}</span>
-              </div>
-              <div class="info-row">
-                <span class="info-key">Anfitrión</span>
-                <span class="info-val">${d.hostName}</span>
-              </div>
-              <div class="info-row">
-                <span class="info-key">Tipo</span>
-                <span class="info-val">${tipoAcceso}</span>
-              </div>
-              <div class="info-row">
-                <span class="info-key">Solicitado</span>
-                <span class="info-val">${new Date(d.createdAt).toLocaleString()}</span>
-              </div>
+              <div class="info-row"><span class="info-key">Nombre</span><span class="info-val">${d.visitorName}</span></div>
+              <div class="info-row"><span class="info-key">Destino</span><span class="info-val">${d.destination}</span></div>
+              <div class="info-row"><span class="info-key">Anfitrión</span><span class="info-val">${d.hostName}</span></div>
+              <div class="info-row"><span class="info-key">Tipo</span><span class="info-val">${tipoAcceso}</span></div>
+              <div class="info-row"><span class="info-key">Solicitado</span><span class="info-val">${new Date(d.createdAt).toLocaleString()}</span></div>
               ${d.status === 'pending' ? '<p class="result-notice">Aguarda la confirmación del anfitrión...</p>' : ''}
             `;
-                        document.getElementById('statusBox').style.display = 'block';
-                    } else {
-                        mostrarError('Solicitud no encontrada. Puede ya haber sido procesada. Verifica tu token de acceso.');
-                    }
-                })
-                .catch(() => mostrarError('Error al consultar. Intenta de nuevo.'));
-        }
+            document.getElementById('statusBox').style.display = 'block';
+          } else {
+            mostrarError('Solicitud no encontrada. Puede ya haber sido procesada. Verifica tu token de acceso.');
+          }
+        })
+        .catch(() => mostrarError('Error al consultar. Intenta de nuevo.'));
+    }
 
-        function consultarToken() {
-            const token = document.getElementById('tokenInput').value.trim();
-            if (!token) { mostrarError('Por favor ingresa tu token de acceso'); return; }
-
-            fetch(apiUrl(`/api/access/token-info/${token}`))
-                .then(r => r.json())
-                .then(d => {
-                    ocultarError();
-                    if (d.error) {
-                        mostrarError(d.error);
-                    } else {
-                        const icons = { approved: '✅', used: '🔒', pending: '⏳' };
-                        const labels = { approved: 'Aprobado', used: 'Utilizado', pending: 'Pendiente' };
-                        const tipoAcceso = d.accessType === 'frequent' ? '🔁 Acceso Frecuente' : '⏱️ Acceso Temporal';
-
-                        document.getElementById('statusBox').className = 'result-box status-' + d.status;
-
-                        let content = `
+    function consultarToken() {
+      const token = document.getElementById('tokenInput').value.trim();
+      if (!token) { mostrarError('Por favor ingresa tu token de acceso'); return; }
+      fetch(apiUrl(`/api/access/token-info/${token}`))
+        .then(r => r.json())
+        .then(d => {
+          ocultarError();
+          if (d.error) {
+            mostrarError(d.error);
+          } else {
+            const labels = { approved: 'Aprobado', used: 'Utilizado', pending: 'Pendiente' };
+            const tipoAcceso = d.accessType === 'frequent' ? 'Acceso Frecuente' : 'Acceso Temporal';
+            document.getElementById('statusBox').className = 'result-box status-' + d.status;
+            let content = `
               <div class="result-status-head">
-                <span class="result-status-icon">${icons[d.status] || '📋'}</span>
+                <span class="result-status-icon">${statusIcons[d.status] || ''}</span>
                 <span class="result-status-label">${labels[d.status] || d.status}</span>
               </div>
-              <div class="info-row">
-                <span class="info-key">Visitante</span>
-                <span class="info-val">${d.visitorName}</span>
-              </div>
-              <div class="info-row">
-                <span class="info-key">Destino</span>
-                <span class="info-val">${d.destination}</span>
-              </div>
-              <div class="info-row">
-                <span class="info-key">Tipo</span>
-                <span class="info-val">${tipoAcceso}</span>
-              </div>
-              <div class="info-row">
-                <span class="info-key">Token</span>
-                <span class="info-val"><span class="token-chip">${token}</span></span>
-              </div>
+              <div class="info-row"><span class="info-key">Visitante</span><span class="info-val">${d.visitorName}</span></div>
+              <div class="info-row"><span class="info-key">Destino</span><span class="info-val">${d.destination}</span></div>
+              <div class="info-row"><span class="info-key">Tipo</span><span class="info-val">${tipoAcceso}</span></div>
+              <div class="info-row"><span class="info-key">Token</span><span class="info-val"><span class="token-chip">${token}</span></span></div>
             `;
-
-                        if (d.accessType === 'frequent') {
-                            content += `
-                <div class="info-row">
-                  <span class="info-key">Usos</span>
-                  <span class="info-val">${d.usageCount} de ${d.maxUses}</span>
-                </div>
-                <div class="info-row">
-                  <span class="info-key">Restantes</span>
-                  <span class="info-val">${d.remainingUses}</span>
-                </div>
+            if (d.accessType === 'frequent') {
+              content += `
+                <div class="info-row"><span class="info-key">Usos</span><span class="info-val">${d.usageCount} de ${d.maxUses}</span></div>
+                <div class="info-row"><span class="info-key">Restantes</span><span class="info-val">${d.remainingUses}</span></div>
               `;
-                        }
+            }
+            content += `<div class="info-row" style="margin-top:8px;opacity:.7;font-size:.82rem;"><span class="info-key">Creado</span><span class="info-val">${new Date(d.createdAt).toLocaleString()}</span></div>`;
+            if (d.usedAt) content += `<div class="info-row" style="opacity:.7;font-size:.82rem;"><span class="info-key">Utilizado</span><span class="info-val">${new Date(d.usedAt).toLocaleString()}</span></div>`;
+            document.getElementById('statusContent').innerHTML = content;
+            document.getElementById('statusBox').style.display = 'block';
+          }
+        })
+        .catch(() => mostrarError('Error al consultar token. Intenta de nuevo.'));
+    }
 
-                        content += `
-              <div class="info-row" style="margin-top:8px; opacity:0.7; font-size:0.82rem;">
-                <span class="info-key">Creado</span>
-                <span class="info-val">${new Date(d.createdAt).toLocaleString()}</span>
-              </div>
-            `;
+    function mostrarError(msg) {
+      const el = document.getElementById('errorBox');
+      el.innerHTML = `<svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:#7F1D1D;fill:none;stroke-width:2;display:inline-block;vertical-align:middle;margin-right:6px;flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>${msg}`;
+      el.style.display = 'flex'; el.style.alignItems = 'center';
+      document.getElementById('statusBox').style.display = 'none';
+    }
+    function ocultarError() { document.getElementById('errorBox').style.display = 'none'; }
 
-                        if (d.usedAt) {
-                            content += `
-                <div class="info-row" style="opacity:0.7; font-size:0.82rem;">
-                  <span class="info-key">Utilizado</span>
-                  <span class="info-val">${new Date(d.usedAt).toLocaleString()}</span>
-                </div>
-              `;
-                        }
-
-                        document.getElementById('statusContent').innerHTML = content;
-                        document.getElementById('statusBox').style.display = 'block';
-                    }
-                })
-                .catch(() => mostrarError('Error al consultar token. Intenta de nuevo.'));
-        }
-
-        function mostrarError(mensaje) {
-            const el = document.getElementById('errorBox');
-            el.textContent = '⚠️ ' + mensaje;
-            el.style.display = 'block';
-            document.getElementById('statusBox').style.display = 'none';
-        }
-
-        function ocultarError() {
-            document.getElementById('errorBox').style.display = 'none';
-        }
-
-        document.getElementById('requestId').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') consultarSolicitud();
-        });
-        document.getElementById('tokenInput').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') consultarToken();
-        });
-    </script>
+    document.getElementById('requestId').addEventListener('keypress', e => { if (e.key === 'Enter') consultarSolicitud(); });
+    document.getElementById('tokenInput').addEventListener('keypress', e => { if (e.key === 'Enter') consultarToken(); });
+  </script>
 </body>
 
 </html>

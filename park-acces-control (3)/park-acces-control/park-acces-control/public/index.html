@@ -15,12 +15,12 @@
 
 <body>
 
-    <!-- ── BACKGROUND VIDEO ──────────────────────────────── -->
+    <!-- BACKGROUND VIDEO -->
     <video autoplay muted loop playsinline id="bg-video">
         <source src="VIDEO.mp4" type="video/mp4">
     </video>
 
-    <!-- ── MAIN CARD ─────────────────────────────────────── -->
+    <!-- MAIN CARD -->
     <div class="welcome-card">
 
         <!-- Logos -->
@@ -37,27 +37,51 @@
 
         <!-- Navigation actions -->
         <div class="menu-actions">
+
             <button class="menu-btn btn-visitor" onclick="window.location.href='visitor_request.html'">
-                <span class="btn-icon">📋</span>
+                <span class="btn-icon">
+                    <!-- clipboard / form icon -->
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+                        <rect x="8" y="2" width="8" height="4" rx="1" ry="1" />
+                        <line x1="9" y1="12" x2="15" y2="12" />
+                        <line x1="9" y1="16" x2="13" y2="16" />
+                    </svg>
+                </span>
                 Registro Visitante
             </button>
+
             <button class="menu-btn btn-resident" onclick="mostrarLogin()">
-                <span class="btn-icon">🏢</span>
+                <span class="btn-icon">
+                    <!-- building / warehouse icon -->
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="2" y="7" width="20" height="15" rx="2" />
+                        <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
+                        <line x1="12" y1="12" x2="12" y2="17" />
+                        <line x1="9.5" y1="14.5" x2="14.5" y2="14.5" />
+                    </svg>
+                </span>
                 Acceso Residente
             </button>
+
             <button class="menu-btn btn-status" onclick="window.location.href='check_status.html'">
-                <span class="btn-icon">🔍</span>
+                <span class="btn-icon">
+                    <!-- search icon -->
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="11" cy="11" r="8" />
+                        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                    </svg>
+                </span>
                 Consultar Estado
             </button>
-        </div>
 
+        </div>
     </div>
 
-    <!-- ── MODAL LOGIN ────────────────────────────────────── -->
+    <!-- MODAL LOGIN -->
     <div id="password-modal" class="modal">
         <div class="modal-content">
             <h3>Iniciar Sesión</h3>
-
             <div class="form-group">
                 <label>Tipo de Usuario</label>
                 <select id="userType">
@@ -65,34 +89,25 @@
                     <option value="admin">Administrador</option>
                 </select>
             </div>
-
             <div class="form-group">
                 <label>Usuario</label>
                 <input type="text" id="username" placeholder="Ingresa tu usuario">
             </div>
-
             <div class="form-group">
                 <label>Contraseña</label>
                 <input type="password" id="password" placeholder="Tu contraseña">
             </div>
-
             <div id="loginStatus" class="status-message"></div>
-
             <button class="btn-modal-primary" onclick="loginUsuario()">Iniciar Sesión</button>
-
-            <button class="link-button" onclick="mostrarRegistro()">
-                ¿No tienes cuenta? Regístrate aquí
-            </button>
-
+            <button class="link-button" onclick="mostrarRegistro()">¿No tienes cuenta? Regístrate aquí</button>
             <button class="cancel-btn" onclick="cerrarLogin()">Cancelar</button>
         </div>
     </div>
 
-    <!-- ── MODAL REGISTRO ─────────────────────────────────── -->
+    <!-- MODAL REGISTRO -->
     <div id="register-modal" class="modal">
         <div class="modal-content">
             <h3>Crear Cuenta</h3>
-
             <div class="form-group">
                 <label>Tipo de Usuario</label>
                 <select id="regUserType">
@@ -101,62 +116,33 @@
                     <option value="admin">Administrador</option>
                 </select>
             </div>
-
             <div class="form-row">
-                <div class="form-group">
-                    <label>Nombre</label>
-                    <input type="text" id="regNombre" placeholder="Tu nombre">
+                <div class="form-group"><label>Nombre</label><input type="text" id="regNombre" placeholder="Tu nombre">
                 </div>
-                <div class="form-group">
-                    <label>Apellido</label>
-                    <input type="text" id="regApellido" placeholder="Tu apellido">
-                </div>
+                <div class="form-group"><label>Apellido</label><input type="text" id="regApellido"
+                        placeholder="Tu apellido"></div>
             </div>
-
             <div class="form-row">
-                <div class="form-group">
-                    <label>Nº Bodega</label>
-                    <input type="text" id="regBodega" placeholder="Ej: B-101">
-                </div>
-                <div class="form-group">
-                    <label>Teléfono</label>
-                    <input type="tel" id="regTelefono" placeholder="+57 300 000 0000">
-                </div>
+                <div class="form-group"><label>Nº Bodega</label><input type="text" id="regBodega"
+                        placeholder="Ej: B-101"></div>
+                <div class="form-group"><label>Teléfono</label><input type="tel" id="regTelefono"
+                        placeholder="+57 300 000 0000"></div>
             </div>
-
-            <div class="form-group">
-                <label>Correo Electrónico</label>
-                <input type="email" id="regEmail" placeholder="ejemplo@correo.com">
-            </div>
-
-            <div class="form-group">
-                <label>Usuario</label>
-                <input type="text" id="regUsuario" placeholder="Nombre de usuario">
-            </div>
-
-            <div class="form-group">
-                <label>Contraseña</label>
-                <input type="password" id="regPassword" placeholder="Mínimo 8 caracteres" minlength="8">
-            </div>
-
-            <div class="form-group">
-                <label>Confirmar Contraseña</label>
-                <input type="password" id="regConfirmPassword" placeholder="Repite tu contraseña">
-            </div>
-
+            <div class="form-group"><label>Correo Electrónico</label><input type="email" id="regEmail"
+                    placeholder="ejemplo@correo.com"></div>
+            <div class="form-group"><label>Usuario</label><input type="text" id="regUsuario"
+                    placeholder="Nombre de usuario"></div>
+            <div class="form-group"><label>Contraseña</label><input type="password" id="regPassword"
+                    placeholder="Mínimo 8 caracteres" minlength="8"></div>
+            <div class="form-group"><label>Confirmar Contraseña</label><input type="password" id="regConfirmPassword"
+                    placeholder="Repite tu contraseña"></div>
             <div id="registerStatus" class="status-message"></div>
-
             <button class="btn-modal-primary" onclick="registrarUsuario()">Crear Cuenta</button>
-
-            <button class="link-button" onclick="volverALogin()">
-                ¿Ya tienes cuenta? Inicia sesión
-            </button>
-
+            <button class="link-button" onclick="volverALogin()">¿Ya tienes cuenta? Inicia sesión</button>
             <button class="cancel-btn" onclick="cerrarRegistro()">Cancelar</button>
         </div>
     </div>
 
-    <!-- ── SCRIPTS (sin cambios funcionales) ─────────────── -->
     <script>
         function mostrarLogin() {
             cerrarRegistro();
@@ -164,74 +150,50 @@
             setTimeout(() => { document.getElementById('username').focus(); }, 100);
             limpiarFormularioLogin();
         }
-
-        function cerrarLogin() {
-            document.getElementById('password-modal').style.display = 'none';
-            limpiarFormularioLogin();
-        }
-
+        function cerrarLogin() { document.getElementById('password-modal').style.display = 'none'; limpiarFormularioLogin(); }
         function limpiarFormularioLogin() {
             document.getElementById('username').value = '';
             document.getElementById('password').value = '';
             document.getElementById('userType').value = 'resident';
             mostrarMensaje('loginStatus', '', 'hide');
         }
-
         async function loginUsuario() {
             const userType = document.getElementById('userType').value;
             const username = document.getElementById('username').value.trim();
             const password = document.getElementById('password').value;
-
-            if (!username) { mostrarMensaje('loginStatus', '⚠️ Por favor ingresa el usuario', 'error'); return; }
-            if (!password) { mostrarMensaje('loginStatus', '⚠️ Por favor ingresa la contraseña', 'error'); return; }
-
+            if (!username) { mostrarMensaje('loginStatus', 'Por favor ingresa el usuario', 'error'); return; }
+            if (!password) { mostrarMensaje('loginStatus', 'Por favor ingresa la contraseña', 'error'); return; }
             mostrarMensaje('loginStatus', 'Validando...', 'info');
-
             try {
                 const res = await fetch(apiUrl('/api/auth/login'), {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ username, password, role: userType === 'admin' ? 'ADMIN' : 'RESIDENT' })
                 });
                 const data = await res.json();
-
                 if (res.ok && data.token) {
                     localStorage.setItem('authToken', data.token);
                     localStorage.setItem('userType', userType);
                     localStorage.setItem('username', username);
-                    mostrarMensaje('loginStatus', '✅ Acceso concedido...', 'success');
+                    mostrarMensaje('loginStatus', 'Acceso concedido...', 'success');
                     setTimeout(() => { window.location.href = 'resident_generator.html'; }, 500);
                 } else {
-                    mostrarMensaje('loginStatus', data.error || '❌ Usuario o contraseña incorrectos', 'error');
+                    mostrarMensaje('loginStatus', data.error || 'Usuario o contraseña incorrectos', 'error');
                     document.getElementById('password').value = '';
                 }
-            } catch (e) {
-                mostrarMensaje('loginStatus', '❌ Error de conexión con el servidor', 'error');
-            }
+            } catch (e) { mostrarMensaje('loginStatus', 'Error de conexión con el servidor', 'error'); }
         }
-
         function mostrarRegistro() {
             cerrarLogin();
             document.getElementById('register-modal').style.display = 'flex';
             setTimeout(() => { document.getElementById('regUserType').focus(); }, 100);
             limpiarFormularioRegistro();
         }
-
-        function cerrarRegistro() {
-            document.getElementById('register-modal').style.display = 'none';
-            limpiarFormularioRegistro();
-        }
-
+        function cerrarRegistro() { document.getElementById('register-modal').style.display = 'none'; limpiarFormularioRegistro(); }
         function volverALogin() { cerrarRegistro(); mostrarLogin(); }
-
         function limpiarFormularioRegistro() {
-            ['regUserType', 'regNombre', 'regApellido', 'regBodega', 'regEmail',
-                'regTelefono', 'regUsuario', 'regPassword', 'regConfirmPassword'].forEach(id => {
-                    document.getElementById(id).value = '';
-                });
+            ['regUserType', 'regNombre', 'regApellido', 'regBodega', 'regEmail', 'regTelefono', 'regUsuario', 'regPassword', 'regConfirmPassword'].forEach(id => { document.getElementById(id).value = ''; });
             mostrarMensaje('registerStatus', '', 'hide');
         }
-
         async function registrarUsuario() {
             const userType = document.getElementById('regUserType').value;
             const nombre = document.getElementById('regNombre').value.trim();
@@ -242,50 +204,32 @@
             const usuario = document.getElementById('regUsuario').value.trim();
             const password = document.getElementById('regPassword').value;
             const confirmPassword = document.getElementById('regConfirmPassword').value;
-
-            if (!userType) { mostrarMensaje('registerStatus', '⚠️ Selecciona el tipo de usuario', 'error'); return; }
-            if (!nombre || !apellido) { mostrarMensaje('registerStatus', '⚠️ Ingresa nombre y apellido', 'error'); return; }
-            if (!bodega) { mostrarMensaje('registerStatus', '⚠️ Ingresa el número de bodega', 'error'); return; }
-            if (!email) { mostrarMensaje('registerStatus', '⚠️ Ingresa un correo electrónico', 'error'); return; }
-            if (!telefono) { mostrarMensaje('registerStatus', '⚠️ Ingresa un teléfono', 'error'); return; }
-            if (!usuario) { mostrarMensaje('registerStatus', '⚠️ Ingresa un nombre de usuario', 'error'); return; }
-            if (password.length < 8) { mostrarMensaje('registerStatus', '⚠️ La contraseña debe tener al menos 8 caracteres', 'error'); return; }
-            if (password !== confirmPassword) { mostrarMensaje('registerStatus', '⚠️ Las contraseñas no coinciden', 'error'); return; }
-
+            if (!userType) { mostrarMensaje('registerStatus', 'Selecciona el tipo de usuario', 'error'); return; }
+            if (!nombre || !apellido) { mostrarMensaje('registerStatus', 'Ingresa nombre y apellido', 'error'); return; }
+            if (!bodega) { mostrarMensaje('registerStatus', 'Ingresa el número de bodega', 'error'); return; }
+            if (!email) { mostrarMensaje('registerStatus', 'Ingresa un correo electrónico', 'error'); return; }
+            if (!telefono) { mostrarMensaje('registerStatus', 'Ingresa un teléfono', 'error'); return; }
+            if (!usuario) { mostrarMensaje('registerStatus', 'Ingresa un nombre de usuario', 'error'); return; }
+            if (password.length < 8) { mostrarMensaje('registerStatus', 'La contraseña debe tener al menos 8 caracteres', 'error'); return; }
+            if (password !== confirmPassword) { mostrarMensaje('registerStatus', 'Las contraseñas no coinciden', 'error'); return; }
             mostrarMensaje('registerStatus', 'Creando cuenta...', 'info');
-
             try {
                 const res = await fetch(apiUrl('/api/auth/register'), {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ userType, nombre, apellido, bodega, email, telefono, username: usuario, password, role: userType === 'admin' ? 'ADMIN' : 'RESIDENT' })
                 });
                 const data = await res.json();
-
                 if (res.ok) {
-                    mostrarMensaje('registerStatus', '✅ ¡Cuenta creada exitosamente!', 'success');
-                    setTimeout(() => {
-                        volverALogin();
-                        mostrarMensaje('loginStatus', '✅ Cuenta creada. Ahora puedes iniciar sesión', 'success');
-                    }, 2000);
-                } else {
-                    mostrarMensaje('registerStatus', data.error || '❌ Error al crear la cuenta', 'error');
-                }
-            } catch (e) {
-                mostrarMensaje('registerStatus', '❌ Error de conexión con el servidor', 'error');
-            }
+                    mostrarMensaje('registerStatus', '¡Cuenta creada exitosamente!', 'success');
+                    setTimeout(() => { volverALogin(); mostrarMensaje('loginStatus', 'Cuenta creada. Ahora puedes iniciar sesión', 'success'); }, 2000);
+                } else { mostrarMensaje('registerStatus', data.error || 'Error al crear la cuenta', 'error'); }
+            } catch (e) { mostrarMensaje('registerStatus', 'Error de conexión con el servidor', 'error'); }
         }
-
         function mostrarMensaje(elementId, texto, tipo) {
             const el = document.getElementById(elementId);
-            if (tipo === 'hide') {
-                el.style.display = 'none'; el.textContent = ''; el.className = 'status-message'; return;
-            }
-            el.textContent = texto;
-            el.className = `status-message ${tipo}`;
-            el.style.display = 'block';
+            if (tipo === 'hide') { el.style.display = 'none'; el.textContent = ''; el.className = 'status-message'; return; }
+            el.textContent = texto; el.className = `status-message ${tipo}`; el.style.display = 'block';
         }
-
         document.addEventListener('DOMContentLoaded', function () {
             const confirmPass = document.getElementById('regConfirmPassword');
             if (confirmPass) {
@@ -295,13 +239,11 @@
                 });
             }
         });
-
         document.addEventListener('keypress', (e) => {
             if (e.key !== 'Enter') return;
             if (document.getElementById('password-modal').style.display === 'flex') loginUsuario();
             else if (document.getElementById('register-modal').style.display === 'flex') registrarUsuario();
         });
-
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => { navigator.serviceWorker.register('/sw.js'); });
         }
