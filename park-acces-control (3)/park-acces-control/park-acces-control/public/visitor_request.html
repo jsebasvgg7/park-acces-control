@@ -4,575 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Avalon - Registro</title>
+    <title>Avalon — Registro Visitante</title>
+    <link rel="manifest" href="/manifest.json">
+    <link rel="stylesheet" href="visitor_request.css">
     <script src="api-config.js"></script>
     <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
-    <link rel="manifest" href="/manifest.json">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link
-        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap"
-        rel="stylesheet">
-    <style>
-        :root {
-            --green: #00594C;
-            --green-dark: #003d33;
-            --green-mid: #007a65;
-            --green-light: #e6f4f1;
-            --green-pale: #f0faf8;
-            --accent: #00c9a7;
-            --text: #111827;
-            --text-muted: #6b7280;
-            --border: #e5e7eb;
-            --bg: #00594C;
-            --white: #ffffff;
-            --radius: 16px;
-            --radius-sm: 10px;
-            --danger: #dc2626;
-            --card-max: 420px;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        body {
-            font-family: 'DM Sans', sans-serif;
-            background: var(--bg);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 0 0 90px;
-        }
-
-        /* TOP BAR */
-        .topbar {
-            width: 100%;
-            max-width: var(--card-max);
-            padding: 20px 20px 10px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .logos {
-            display: flex;
-            align-items: center;
-            gap: 18px;
-        }
-
-        .logos img {
-            height: 28px;
-            object-fit: contain;
-            filter: brightness(0) invert(1);
-            opacity: 0.88;
-        }
-
-        /* PROGRESS BAR */
-        .progress-wrap {
-            width: 100%;
-        }
-
-        .progress-track {
-            display: flex;
-            gap: 5px;
-            margin-bottom: 7px;
-        }
-
-        .progress-seg {
-            flex: 1;
-            height: 3px;
-            border-radius: 2px;
-            background: rgba(255, 255, 255, 0.22);
-            transition: background 0.35s;
-        }
-
-        .progress-seg.done {
-            background: rgba(255, 255, 255, 0.55);
-        }
-
-        .progress-seg.active {
-            background: white;
-        }
-
-        .progress-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .progress-label {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.7);
-            font-weight: 500;
-        }
-
-        .progress-count {
-            font-size: 11px;
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        /* MAIN CARD */
-        .card {
-            width: calc(100% - 32px);
-            max-width: var(--card-max);
-            background: var(--white);
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.18);
-        }
-
-        /* STEP HEADER STRIP */
-        .step-strip {
-            background: var(--green-pale);
-            border-bottom: 1px solid var(--green-light);
-            padding: 14px 20px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .step-icon-bubble {
-            width: 38px;
-            height: 38px;
-            border-radius: 12px;
-            background: var(--green);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            flex-shrink: 0;
-        }
-
-        .step-head-title {
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--text);
-        }
-
-        .step-head-sub {
-            font-size: 12px;
-            color: var(--text-muted);
-            margin-top: 1px;
-        }
-
-        /* CARD BODY */
-        .card-body {
-            padding: 18px 20px 22px;
-        }
-
-        /* STEPS */
-        .step {
-            display: none;
-        }
-
-        .step.active {
-            display: block;
-        }
-
-        /* FIELD */
-        .field {
-            margin-bottom: 13px;
-        }
-
-        .field label {
-            display: block;
-            font-size: 11px;
-            font-weight: 600;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.07em;
-            margin-bottom: 5px;
-        }
-
-        .field input,
-        .field select {
-            width: 100%;
-            padding: 13px 14px;
-            border: 1.5px solid var(--border);
-            border-radius: var(--radius-sm);
-            font-size: 15px;
-            font-family: 'DM Sans', sans-serif;
-            color: var(--text);
-            background: #fafafa;
-            -webkit-appearance: none;
-            transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
-        }
-
-        .field input:focus,
-        .field select:focus {
-            outline: none;
-            border-color: var(--green);
-            background: white;
-            box-shadow: 0 0 0 3px rgba(0, 89, 76, 0.08);
-        }
-
-        .field-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-
-        /* OPTION GRID */
-        .opt-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            margin-bottom: 13px;
-        }
-
-        .opt-item {
-            position: relative;
-        }
-
-        .opt-item input[type="radio"] {
-            position: absolute;
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .opt-label {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-            padding: 14px 10px;
-            border: 1.5px solid var(--border);
-            border-radius: var(--radius-sm);
-            cursor: pointer;
-            background: #fafafa;
-            transition: all 0.2s;
-            text-align: center;
-        }
-
-        .opt-icon {
-            font-size: 22px;
-        }
-
-        .opt-title {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-muted);
-            transition: color 0.2s;
-        }
-
-        .opt-sub {
-            font-size: 11px;
-            color: #9ca3af;
-            line-height: 1.3;
-        }
-
-        .opt-item input:checked+.opt-label {
-            border-color: var(--green);
-            background: var(--green-pale);
-            box-shadow: inset 0 0 0 1px var(--green-light);
-        }
-
-        .opt-item input:checked+.opt-label .opt-title {
-            color: var(--green-dark);
-        }
-
-        /* CHECK MARK on selected */
-        .opt-item input:checked+.opt-label::after {
-            content: '✓';
-            position: absolute;
-            top: 7px;
-            right: 9px;
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--green);
-        }
-
-        .opt-item {
-            position: relative;
-        }
-
-        /* DIVIDER */
-        .divider {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin: 14px 0;
-        }
-
-        .divider-line {
-            flex: 1;
-            height: 1px;
-            background: var(--border);
-        }
-
-        .divider-text {
-            font-size: 11px;
-            color: var(--text-muted);
-            font-weight: 500;
-            white-space: nowrap;
-        }
-
-        /* UPLOAD */
-        .upload-zone {
-            border: 1.5px dashed #d1d5db;
-            border-radius: var(--radius-sm);
-            padding: 14px 16px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            cursor: pointer;
-            background: #fafafa;
-            transition: all 0.2s;
-            margin-bottom: 13px;
-        }
-
-        .upload-zone:active {
-            background: var(--green-pale);
-            border-color: var(--green);
-        }
-
-        .upload-zone-icon {
-            width: 40px;
-            height: 40px;
-            background: var(--green-light);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            flex-shrink: 0;
-        }
-
-        .upload-zone-text {
-            flex: 1;
-        }
-
-        .upload-zone-title {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text);
-        }
-
-        .upload-zone-sub {
-            font-size: 11px;
-            color: var(--text-muted);
-            margin-top: 2px;
-        }
-
-        .upload-zone-done {
-            font-size: 12px;
-            color: var(--green);
-            font-weight: 500;
-            margin-top: 3px;
-        }
-
-        .upload-arrow {
-            font-size: 16px;
-            color: var(--text-muted);
-        }
-
-        /* BOTTOM ACTIONS */
-        .bottom-actions {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: white;
-            border-top: 1px solid var(--border);
-            padding: 12px 20px 24px;
-            display: flex;
-            gap: 10px;
-            z-index: 200;
-        }
-
-        .btn-back {
-            padding: 14px 16px;
-            border: 1.5px solid var(--border);
-            border-radius: var(--radius-sm);
-            background: white;
-            font-size: 15px;
-            font-family: 'DM Sans', sans-serif;
-            cursor: pointer;
-            color: var(--text-muted);
-            transition: all 0.2s;
-            white-space: nowrap;
-        }
-
-        .btn-next {
-            flex: 1;
-            padding: 14px;
-            background: var(--green);
-            color: white;
-            border: none;
-            border-radius: var(--radius-sm);
-            font-size: 15px;
-            font-weight: 600;
-            font-family: 'DM Sans', sans-serif;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .btn-next:active {
-            background: var(--green-dark);
-            transform: scale(0.98);
-        }
-
-        .btn-back:active {
-            background: #f3f4f6;
-        }
-
-        /* SUCCESS SCREENS */
-        .special-screen {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            padding: 28px 20px 24px;
-        }
-
-        .special-icon-ring {
-            width: 72px;
-            height: 72px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 30px;
-            margin-bottom: 14px;
-        }
-
-        .ring-wait {
-            background: #FEF3C7;
-        }
-
-        .ring-ok {
-            background: #DCFCE7;
-        }
-
-        .ring-denied {
-            background: #FEE2E2;
-        }
-
-        .special-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--text);
-            margin-bottom: 6px;
-        }
-
-        .special-sub {
-            font-size: 13px;
-            color: var(--text-muted);
-            line-height: 1.6;
-            margin-bottom: 18px;
-            max-width: 280px;
-        }
-
-        .pulse-row {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: #FFFBEB;
-            border: 1px solid #FDE68A;
-            border-radius: 10px;
-            padding: 11px 16px;
-            font-size: 13px;
-            color: #92400E;
-            font-weight: 500;
-        }
-
-        .pulse-dot {
-            width: 8px;
-            height: 8px;
-            background: #F59E0B;
-            border-radius: 50%;
-            animation: pulse 1.4s ease-in-out infinite;
-            flex-shrink: 0;
-        }
-
-        @keyframes pulse {
-
-            0%,
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-
-            50% {
-                opacity: 0.4;
-                transform: scale(0.75);
-            }
-        }
-
-        .approved-qr {
-            width: 180px;
-            height: 180px;
-            border: 3px solid var(--green);
-            border-radius: 14px;
-            object-fit: contain;
-            margin: 12px 0;
-        }
-
-        .approved-token {
-            font-family: monospace;
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--green);
-            letter-spacing: 3px;
-            margin-bottom: 6px;
-        }
-
-        .token-label {
-            font-size: 11px;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-        }
-
-        /* NAVBAR */
-        .navbar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: white;
-            border-top: 1px solid var(--border);
-            display: flex;
-            justify-content: space-around;
-            padding: 10px 0 16px;
-            z-index: 300;
-        }
-
-        .nav-item {
-            text-decoration: none;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 3px;
-            flex: 1;
-        }
-
-        .nav-icon {
-            font-size: 20px;
-        }
-
-        .nav-label {
-            font-size: 10px;
-            font-weight: 500;
-            color: var(--text-muted);
-        }
-
-        .nav-item.active .nav-label {
-            color: var(--green);
-        }
-    </style>
 </head>
 
 <body>
 
-    <!-- TOP BAR -->
+    <!-- ── TOP BAR ───────────────────────────────────────── -->
     <div class="topbar">
         <div class="logos">
             <img src="img/logo-prologis.png" alt="Prologis">
@@ -592,10 +33,10 @@
         </div>
     </div>
 
-    <!-- MAIN CARD -->
+    <!-- ── MAIN CARD ─────────────────────────────────────── -->
     <div class="card" id="mainCard">
 
-        <!-- STEP 1 -->
+        <!-- ── STEP 1: Tipo de visita ──────────────────────── -->
         <div class="step active" id="step1">
             <div class="step-strip">
                 <div class="step-icon-bubble">🚦</div>
@@ -605,9 +46,8 @@
                 </div>
             </div>
             <div class="card-body">
-                <div class="field">
-                    <label>Categoría</label>
-                </div>
+
+                <div class="field"><label>Categoría</label></div>
                 <div class="opt-grid">
                     <div class="opt-item">
                         <input type="radio" name="visitType" id="typeCargo" value="cargo" checked>
@@ -627,9 +67,7 @@
                     </div>
                 </div>
 
-                <div class="field" style="margin-top:4px;">
-                    <label>Tipo de acceso</label>
-                </div>
+                <div class="field" style="margin-top:2px;"><label>Tipo de acceso</label></div>
                 <div class="opt-grid">
                     <div class="opt-item">
                         <input type="radio" name="accessType" id="accessSingle" value="single" checked>
@@ -649,10 +87,10 @@
                     </div>
                 </div>
 
-                <div class="divider">
-                    <div class="divider-line"></div>
-                    <div class="divider-text">Destino</div>
-                    <div class="divider-line"></div>
+                <div class="section-divider">
+                    <div class="div-line"></div>
+                    <span class="div-text">Destino</span>
+                    <div class="div-line"></div>
                 </div>
 
                 <div class="field">
@@ -663,10 +101,11 @@
                     <label>Bodega / Destino</label>
                     <input type="text" id="vDest" placeholder="Ej: Bodega 12, Oficina A">
                 </div>
+
             </div>
         </div>
 
-        <!-- STEP 2 -->
+        <!-- ── STEP 2: Datos personales ────────────────────── -->
         <div class="step" id="step2">
             <div class="step-strip">
                 <div class="step-icon-bubble">👤</div>
@@ -676,6 +115,7 @@
                 </div>
             </div>
             <div class="card-body">
+
                 <div class="field">
                     <label>Empresa / Proveedor</label>
                     <input type="text" id="vEmp" placeholder="Nombre de tu empresa">
@@ -689,10 +129,10 @@
                     <input type="tel" id="vPhone" placeholder="+57 300 000 0000">
                 </div>
 
-                <div class="divider">
-                    <div class="divider-line"></div>
-                    <div class="divider-text">Identificación</div>
-                    <div class="divider-line"></div>
+                <div class="section-divider">
+                    <div class="div-line"></div>
+                    <span class="div-text">Identificación</span>
+                    <div class="div-line"></div>
                 </div>
 
                 <div class="upload-zone" onclick="document.getElementById('idFile').click()">
@@ -700,15 +140,16 @@
                     <div class="upload-zone-text">
                         <div class="upload-zone-title">Cédula o licencia</div>
                         <div class="upload-zone-sub">Foto de tu documento de identidad</div>
-                        <div class="upload-zone-done" id="idFileName" style="display:none;"></div>
+                        <div class="upload-zone-done" id="idFileName"></div>
                     </div>
                     <div class="upload-arrow">›</div>
                 </div>
                 <input type="file" id="idFile" style="display:none;" accept="image/*">
+
             </div>
         </div>
 
-        <!-- STEP 3 -->
+        <!-- ── STEP 3: Vehículo ────────────────────────────── -->
         <div class="step" id="step3">
             <div class="step-strip">
                 <div class="step-icon-bubble">🚗</div>
@@ -718,6 +159,7 @@
                 </div>
             </div>
             <div class="card-body">
+
                 <div class="field-row">
                     <div class="field">
                         <label>Placa</label>
@@ -729,10 +171,10 @@
                     </div>
                 </div>
 
-                <div class="divider" style="margin-top:6px;">
-                    <div class="divider-line"></div>
-                    <div class="divider-text">Fotos del vehículo</div>
-                    <div class="divider-line"></div>
+                <div class="section-divider" style="margin-top:6px;">
+                    <div class="div-line"></div>
+                    <span class="div-text">Fotos del vehículo</span>
+                    <div class="div-line"></div>
                 </div>
 
                 <div class="upload-zone" onclick="document.getElementById('vehicleFile').click()">
@@ -740,54 +182,80 @@
                     <div class="upload-zone-text">
                         <div class="upload-zone-title">Subir fotos</div>
                         <div class="upload-zone-sub">Puedes seleccionar varias imágenes</div>
-                        <div class="upload-zone-done" id="vehicleFileName" style="display:none;"></div>
+                        <div class="upload-zone-done" id="vehicleFileName"></div>
                     </div>
                     <div class="upload-arrow">›</div>
                 </div>
                 <input type="file" id="vehicleFile" style="display:none;" accept="image/*" multiple>
+
             </div>
         </div>
 
-        <!-- ESPERANDO -->
+        <!-- ── PANTALLA ESPERANDO ──────────────────────────── -->
         <div class="special-screen" id="waitScreen">
             <div class="special-icon-ring ring-wait">⏳</div>
             <div class="special-title">Solicitud enviada</div>
-            <div class="special-sub">Tu anfitrión recibirá la notificación y aprobará tu acceso en breve. No cierres
-                esta pantalla.</div>
+            <div class="special-sub">
+                Tu anfitrión recibirá la notificación y aprobará tu acceso en breve.<br>
+                No cierres esta pantalla.
+            </div>
             <div class="pulse-row">
                 <div class="pulse-dot"></div>
-                Esperando aprobación del anfitrión...
+                Esperando aprobación del anfitrión…
             </div>
         </div>
 
-        <!-- APROBADO -->
+        <!-- ── PANTALLA APROBADO ───────────────────────────── -->
         <div class="special-screen" id="approvedScreen">
             <div class="special-icon-ring ring-ok">✅</div>
             <div class="special-title">¡Acceso aprobado!</div>
             <div class="special-sub">Presenta este código QR al ingresar a la planta.</div>
-            <img class="approved-qr" id="approvedQR" src="" alt="QR Code">
+            <img class="approved-qr" id="approvedQR" src="" alt="QR de acceso">
             <div class="token-label">Tu token</div>
             <div class="approved-token" id="approvedToken">—</div>
         </div>
 
-        <!-- DENEGADO -->
+        <!-- ── PANTALLA DENEGADO ───────────────────────────── -->
         <div class="special-screen" id="deniedScreen">
             <div class="special-icon-ring ring-denied">❌</div>
             <div class="special-title">Solicitud denegada</div>
-            <div class="special-sub">Tu anfitrión rechazó la solicitud de acceso. Contáctalo directamente para más
-                información.</div>
+            <div class="special-sub">
+                Tu anfitrión rechazó la solicitud de acceso.<br>
+                Contáctalo directamente para más información.
+            </div>
         </div>
 
-    </div>
+    </div><!-- /card -->
 
-    <!-- BOTTOM ACTIONS -->
+    <!-- ── BOTTOM ACTIONS ─────────────────────────────────── -->
     <div class="bottom-actions" id="bottomActions">
         <button class="btn-back" id="btnBack" onclick="prevStep()" style="display:none;">← Atrás</button>
         <button class="btn-next" id="btnNext" onclick="nextStep()">Continuar →</button>
     </div>
 
+    <!-- ── NAVBAR (oculta mientras hay bottom actions; solo aparece en pantallas especiales) -->
+    <nav class="navbar" id="mainNavbar" style="display:none;">
+        <a href="index.html" class="nav-item">
+            <span class="nav-icon">🏠</span>
+            <span class="nav-label">Inicio</span>
+        </a>
+        <a href="visitor_request.html" class="nav-item active">
+            <div class="nav-active-bar"></div>
+            <span class="nav-icon">📝</span>
+            <span class="nav-label">Registro</span>
+        </a>
+        <a href="check_status.html" class="nav-item">
+            <span class="nav-icon">✓</span>
+            <span class="nav-label">Estado</span>
+        </a>
+    </nav>
+
+    <!-- ── SCRIPTS (sin cambios funcionales) ─────────────── -->
     <script>
-        const socket = window.io ? io(window.APP_CONFIG?.SOCKET_BASE || undefined) : { emit: () => { }, on: () => { } };
+        const socket = window.io
+            ? io(window.APP_CONFIG?.SOCKET_BASE || undefined)
+            : { emit: () => { }, on: () => { } };
+
         const rid = 'REQ-' + Math.random().toString(36).substr(2, 9);
         let currentStep = 1;
         const totalSteps = 3;
@@ -807,7 +275,8 @@
             document.getElementById('progressLabel').textContent = stepMeta[currentStep - 1].label;
             document.getElementById('progressCount').textContent = stepMeta[currentStep - 1].count;
             document.getElementById('btnBack').style.display = currentStep > 1 ? 'block' : 'none';
-            document.getElementById('btnNext').textContent = currentStep === totalSteps ? 'Generar pase ✓' : 'Continuar →';
+            document.getElementById('btnNext').textContent =
+                currentStep === totalSteps ? 'Generar pase ✓' : 'Continuar →';
         }
 
         function showStep(n) {
@@ -819,12 +288,10 @@
 
         function nextStep() {
             if (currentStep === 1 && !document.getElementById('vDest').value.trim()) {
-                alert('Ingresa el destino o bodega');
-                return;
+                alert('Ingresa el destino o bodega'); return;
             }
             if (currentStep === 2 && !document.getElementById('vName').value.trim()) {
-                alert('Ingresa tu nombre completo');
-                return;
+                alert('Ingresa tu nombre completo'); return;
             }
             if (currentStep < totalSteps) {
                 currentStep++;
@@ -876,7 +343,7 @@
             if (!data.visitorName || !data.destination) { alert('Faltan datos requeridos'); return; }
 
             const btn = document.getElementById('btnNext');
-            btn.textContent = 'Enviando...';
+            btn.textContent = 'Enviando…';
             btn.disabled = true;
 
             socket.emit('join-request', rid);
@@ -896,10 +363,12 @@
                     return;
                 }
 
+                // Show wait screen
                 document.getElementById('bottomActions').style.display = 'none';
                 document.getElementById('progressWrap').style.display = 'none';
                 document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
                 document.getElementById('waitScreen').style.display = 'flex';
+                document.getElementById('mainNavbar').style.display = 'flex';
 
             } catch (e) {
                 alert('Error de conexión. Intenta de nuevo.');
@@ -912,8 +381,11 @@
             document.getElementById('waitScreen').style.display = 'none';
             if (d.status === 'approved') {
                 document.getElementById('approvedScreen').style.display = 'flex';
-                document.getElementById('approvedQR').src = d.qrCodeImage || `https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=${d.token}&choe=UTF-8`;
+                document.getElementById('approvedQR').src =
+                    d.qrCodeImage ||
+                    `https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=${d.token}&choe=UTF-8`;
                 document.getElementById('approvedToken').textContent = d.token;
+
                 const qrParams = new URLSearchParams({
                     token: d.token,
                     visitorName: document.getElementById('vName').value,

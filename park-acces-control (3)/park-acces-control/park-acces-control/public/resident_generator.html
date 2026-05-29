@@ -3,532 +3,18 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Avalon - Panel de Residente</title>
+    <title>Avalon — Panel Residente</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="resident_generator.css">
     <script src="api-config.js"></script>
     <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --green: #00594C;
-            --green-dark: #004038;
-            --green-light: #e8f5f2;
-            --accent: #00B894;
-            --danger: #E53E3E;
-            --warning-bg: #FFFBEB;
-            --warning-text: #92400E;
-            --warning-border: #FCD34D;
-            --text: #1a1a1a;
-            --text-muted: #6b7280;
-            --border: #e5e7eb;
-            --bg: #f4f6f5;
-            --white: #ffffff;
-            --radius: 14px;
-            --radius-sm: 8px;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        body {
-            font-family: 'DM Sans', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            min-height: 100vh;
-            padding-bottom: 80px;
-        }
-
-        /* HEADER */
-        .header {
-            background: var(--green);
-            padding: 16px 20px 14px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .header-logos {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .header-logos img {
-            height: 32px;
-            object-fit: contain;
-            filter: brightness(0) invert(1);
-            opacity: 0.92;
-        }
-
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .user-badge {
-            background: rgba(255, 255, 255, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            border-radius: 20px;
-            padding: 5px 12px;
-            font-size: 13px;
-            color: white;
-            font-weight: 500;
-        }
-
-        .logout-btn {
-            background: rgba(255, 255, 255, 0.12);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white;
-            border-radius: 8px;
-            padding: 6px 10px;
-            font-size: 13px;
-            cursor: pointer;
-            font-family: 'DM Sans', sans-serif;
-            transition: background 0.2s;
-        }
-
-        .logout-btn:active {
-            background: rgba(255, 255, 255, 0.25);
-        }
-
-        /* MAIN */
-        .main {
-            padding: 16px;
-            max-width: 480px;
-            margin: 0 auto;
-        }
-
-        /* SECTION LABEL */
-        .section-label {
-            font-size: 11px;
-            font-weight: 600;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            margin: 20px 0 10px;
-        }
-
-        /* CARD */
-        .card {
-            background: var(--white);
-            border-radius: var(--radius);
-            border: 1px solid var(--border);
-            overflow: hidden;
-            margin-bottom: 12px;
-        }
-
-        .card-body {
-            padding: 16px;
-        }
-
-        /* GENERAR PASE */
-        .generate-card {
-            padding: 16px;
-        }
-
-        .generate-card input {
-            width: 100%;
-            padding: 13px 14px;
-            border: 1.5px solid var(--border);
-            border-radius: var(--radius-sm);
-            font-size: 15px;
-            font-family: 'DM Sans', sans-serif;
-            color: var(--text);
-            background: #fafafa;
-            margin-bottom: 10px;
-            transition: border-color 0.2s;
-            -webkit-appearance: none;
-        }
-
-        .generate-card input:focus {
-            outline: none;
-            border-color: var(--green);
-            background: white;
-        }
-
-        .btn-primary {
-            width: 100%;
-            padding: 14px;
-            background: var(--green);
-            color: white;
-            border: none;
-            border-radius: var(--radius-sm);
-            font-size: 15px;
-            font-weight: 600;
-            font-family: 'DM Sans', sans-serif;
-            cursor: pointer;
-            letter-spacing: 0.02em;
-            transition: background 0.2s, transform 0.1s;
-        }
-
-        .btn-primary:active {
-            background: var(--green-dark);
-            transform: scale(0.98);
-        }
-
-        /* PENDIENTES */
-        .pending-card {
-            background: var(--white);
-            border-radius: var(--radius);
-            border: 1px solid var(--border);
-            margin-bottom: 10px;
-            overflow: hidden;
-        }
-
-        .pending-header {
-            padding: 14px 16px 10px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .pending-name {
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--text);
-            margin-bottom: 4px;
-        }
-
-        .pending-meta {
-            font-size: 12px;
-            color: var(--text-muted);
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .meta-chip {
-            background: var(--green-light);
-            color: var(--green-dark);
-            padding: 2px 8px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 500;
-        }
-
-        .pending-actions {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-        }
-
-        .btn-approve {
-            padding: 13px;
-            background: var(--green-light);
-            color: var(--green-dark);
-            border: none;
-            font-size: 14px;
-            font-weight: 600;
-            font-family: 'DM Sans', sans-serif;
-            cursor: pointer;
-            border-top: 1px solid var(--border);
-            border-right: 0.5px solid var(--border);
-            transition: background 0.2s;
-        }
-
-        .btn-deny {
-            padding: 13px;
-            background: #fff5f5;
-            color: var(--danger);
-            border: none;
-            font-size: 14px;
-            font-weight: 600;
-            font-family: 'DM Sans', sans-serif;
-            cursor: pointer;
-            border-top: 1px solid var(--border);
-            border-left: 0.5px solid var(--border);
-            transition: background 0.2s;
-        }
-
-        .btn-approve:active {
-            background: #c6ede4;
-        }
-
-        .btn-deny:active {
-            background: #fed7d7;
-        }
-
-        /* PASES ACTIVOS */
-        .active-item {
-            display: flex;
-            align-items: center;
-            padding: 13px 16px;
-            border-bottom: 1px solid var(--border);
-            gap: 12px;
-        }
-
-        .active-item:last-child {
-            border-bottom: none;
-        }
-
-        .active-avatar {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            background: var(--green-light);
-            color: var(--green);
-            font-size: 14px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .active-info {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .active-name {
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--text);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .active-dest {
-            font-size: 12px;
-            color: var(--text-muted);
-            margin-top: 2px;
-        }
-
-        .active-badge {
-            font-size: 11px;
-            padding: 3px 8px;
-            border-radius: 20px;
-            font-weight: 500;
-            flex-shrink: 0;
-        }
-
-        .badge-single {
-            background: #EFF6FF;
-            color: #1D4ED8;
-        }
-
-        .badge-frequent {
-            background: var(--green-light);
-            color: var(--green);
-        }
-
-        /* HISTORIAL */
-        .history-item {
-            display: flex;
-            align-items: center;
-            padding: 12px 16px;
-            border-bottom: 1px solid var(--border);
-            gap: 12px;
-        }
-
-        .history-item:last-child {
-            border-bottom: none;
-        }
-
-        .history-icon {
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-            background: #F0FDF4;
-            color: #16A34A;
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .history-info {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .history-name {
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--text);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .history-time {
-            font-size: 12px;
-            color: var(--text-muted);
-            margin-top: 2px;
-        }
-
-        /* EMPTY STATE */
-        .empty-state {
-            text-align: center;
-            padding: 30px 20px;
-            color: var(--text-muted);
-            font-size: 13px;
-        }
-
-        .empty-state svg {
-            margin-bottom: 8px;
-            opacity: 0.3;
-        }
-
-        /* NOT AUTH */
-        .not-auth-screen {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: calc(100vh - 80px);
-            padding: 20px;
-            text-align: center;
-        }
-
-        .not-auth-icon {
-            font-size: 48px;
-            margin-bottom: 12px;
-        }
-
-        .not-auth-title {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 6px;
-        }
-
-        .not-auth-sub {
-            font-size: 14px;
-            color: var(--text-muted);
-            margin-bottom: 24px;
-        }
-
-        /* NAVBAR */
-        .navbar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: var(--white);
-            border-top: 1px solid var(--border);
-            display: flex;
-            justify-content: space-around;
-            padding: 10px 0 14px;
-            z-index: 200;
-        }
-
-        .nav-item {
-            text-decoration: none;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 3px;
-            flex: 1;
-        }
-
-        .nav-icon {
-            width: 28px;
-            height: 28px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 8px;
-            font-size: 18px;
-            transition: background 0.2s;
-        }
-
-        .nav-item.active .nav-icon {
-            background: var(--green-light);
-        }
-
-        .nav-label {
-            font-size: 10px;
-            font-weight: 500;
-            color: var(--text-muted);
-        }
-
-        .nav-item.active .nav-label {
-            color: var(--green);
-        }
-
-        /* NOTIF DOT */
-        .notif-wrap {
-            position: relative;
-        }
-
-        .notif-dot {
-            position: absolute;
-            top: -2px;
-            right: -2px;
-            width: 8px;
-            height: 8px;
-            background: var(--danger);
-            border-radius: 50%;
-            border: 1.5px solid white;
-            display: none;
-        }
-
-        /* LOADING */
-        .skeleton {
-            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-            background-size: 200% 100%;
-            animation: shimmer 1.2s infinite;
-            border-radius: 6px;
-            height: 14px;
-            margin-bottom: 8px;
-        }
-
-        @keyframes shimmer {
-            0% {
-                background-position: -200% 0;
-            }
-
-            100% {
-                background-position: 200% 0;
-            }
-        }
-
-        /* LAST QR MINI */
-        .last-qr-mini {
-            display: none;
-            align-items: center;
-            gap: 12px;
-            background: var(--green-light);
-            border: 1px solid #b2d8d0;
-            border-radius: var(--radius-sm);
-            padding: 10px 14px;
-            margin-top: 10px;
-        }
-
-        .last-qr-mini img {
-            width: 48px;
-            height: 48px;
-            border-radius: 6px;
-        }
-
-        .last-qr-mini-info {
-            flex: 1;
-        }
-
-        .last-qr-mini-token {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--green-dark);
-        }
-
-        .last-qr-mini-label {
-            font-size: 11px;
-            color: var(--green);
-        }
-    </style>
 </head>
 
 <body>
 
-    <!-- HEADER -->
+    <!-- ══════════════════════════════════════════════════════
+       HEADER
+  ═══════════════════════════════════════════════════════ -->
     <div class="header" id="mainHeader">
         <div class="header-logos">
             <img src="img/logo-prologis.png" alt="Prologis">
@@ -540,83 +26,114 @@
         </div>
     </div>
 
-    <!-- NOT AUTH -->
+    <!-- ══════════════════════════════════════════════════════
+       NOT AUTH
+  ═══════════════════════════════════════════════════════ -->
     <div class="not-auth-screen" id="notAuthScreen" style="display:none;">
         <div class="not-auth-icon">🔒</div>
         <div class="not-auth-title">Acceso restringido</div>
         <div class="not-auth-sub">Inicia sesión para ver el panel de residente</div>
-        <button class="btn-primary" style="max-width:220px;" onclick="window.location.href='index.html'">
+        <button class="btn-primary" onclick="window.location.href='index.html'">
             Ir al inicio de sesión
         </button>
     </div>
 
-    <!-- MAIN PANEL -->
+    <!-- ══════════════════════════════════════════════════════
+       MAIN PANEL
+  ═══════════════════════════════════════════════════════ -->
     <div class="main" id="mainPanel" style="display:none;">
 
-        <!-- GENERAR PASE -->
-        <div class="section-label">Generar pase rápido</div>
-        <div class="card">
-            <div class="generate-card">
-                <input type="text" id="vName" placeholder="Nombre del visitante">
-                <input type="text" id="vDestination" placeholder="Bodega / Destino">
-                <button class="btn-primary" onclick="generarManual()">Generar QR</button>
-                <div class="last-qr-mini" id="lastQrMini">
-                    <img id="lastQrImg" src="" alt="QR">
-                    <div class="last-qr-mini-info">
-                        <div class="last-qr-mini-token" id="lastQrToken">—</div>
-                        <div class="last-qr-mini-label">Pase generado · Toca para ver</div>
-                    </div>
+        <!-- Generar pase rápido -->
+        <div class="section-label label-generate">Generar pase rápido</div>
+
+        <div class="generate-card">
+            <input type="text" id="vName" placeholder="Nombre del visitante">
+            <input type="text" id="vDestination" placeholder="Bodega / Destino">
+            <button class="btn-generate" onclick="generarManual()">Generar QR</button>
+
+            <!-- Mini preview último QR -->
+            <div class="last-qr-mini" id="lastQrMini">
+                <img id="lastQrImg" src="" alt="QR">
+                <div>
+                    <div class="last-qr-mini-token" id="lastQrToken">—</div>
+                    <div class="last-qr-mini-label">Pase generado · Toca para ver</div>
                 </div>
             </div>
         </div>
 
-        <!-- SOLICITUDES PENDIENTES -->
-        <div class="section-label">
+        <!-- Solicitudes pendientes -->
+        <div class="section-label label-pending">
             Solicitudes pendientes
-            <span id="pendingCount"
-                style="display:none; background:var(--danger); color:white; padding:1px 6px; border-radius:10px; font-size:10px; margin-left:6px;"></span>
+            <span class="count-badge" id="pendingCount"></span>
         </div>
-        <div id="listaPendientes">
-            <div class="card">
-                <div class="empty-state">Cargando...</div>
+
+        <div class="pending-list-wrap" id="listaPendientes">
+            <!-- Loading skeleton -->
+            <div class="list-card">
+                <div class="skeleton-wrap">
+                    <div class="skeleton" style="height:14px; width:55%;"></div>
+                    <div class="skeleton" style="height:12px; width:80%;"></div>
+                    <div class="skeleton" style="height:12px; width:40%;"></div>
+                </div>
             </div>
         </div>
 
-        <!-- PASES ACTIVOS -->
-        <div class="section-label">Pases activos</div>
-        <div class="card" id="cardActivos">
-            <div class="empty-state">Cargando...</div>
+        <!-- Pases activos -->
+        <div class="section-label label-activos">Pases activos</div>
+
+        <div class="list-card" id="cardActivos">
+            <div class="skeleton-wrap">
+                <div class="skeleton" style="height:13px; width:60%;"></div>
+                <div class="skeleton" style="height:11px; width:45%;"></div>
+            </div>
         </div>
 
-        <!-- HISTORIAL -->
-        <div class="section-label">Historial reciente</div>
-        <div class="card" id="cardHistorial">
-            <div class="empty-state">Cargando...</div>
+        <!-- Historial reciente -->
+        <div class="section-label label-historial">Historial reciente</div>
+
+        <div class="list-card" id="cardHistorial">
+            <div class="skeleton-wrap">
+                <div class="skeleton" style="height:13px; width:65%;"></div>
+                <div class="skeleton" style="height:11px; width:50%;"></div>
+            </div>
         </div>
 
-    </div>
+    </div><!-- /main -->
 
-    <!-- NAVBAR -->
+    <!-- ══════════════════════════════════════════════════════
+       NAVBAR
+  ═══════════════════════════════════════════════════════ -->
     <nav class="navbar">
         <a href="index.html" class="nav-item">
-            <div class="nav-icon">🏠</div>
+            <div class="nav-icon-wrap">
+                <span class="nav-icon">🏠</span>
+            </div>
             <span class="nav-label">Inicio</span>
         </a>
         <a href="visitor_request.html" class="nav-item">
-            <div class="nav-icon">📝</div>
+            <div class="nav-icon-wrap">
+                <span class="nav-icon">📝</span>
+            </div>
             <span class="nav-label">Registro</span>
         </a>
         <a href="resident_generator.html" class="nav-item active">
-            <div class="nav-icon notif-wrap">
-                📊
+            <div class="nav-icon-wrap">
+                <div class="nav-active-indicator"></div>
+                <span class="nav-icon">📊</span>
                 <span class="notif-dot" id="navNotifDot"></span>
             </div>
             <span class="nav-label">Panel</span>
         </a>
     </nav>
 
+    <!-- ══════════════════════════════════════════════════════
+       SCRIPTS (sin cambios funcionales)
+  ═══════════════════════════════════════════════════════ -->
     <script>
-        const socket = window.io ? io(window.APP_CONFIG?.SOCKET_BASE || undefined) : { emit: () => { }, on: () => { } };
+        const socket = window.io
+            ? io(window.APP_CONFIG?.SOCKET_BASE || undefined)
+            : { emit: () => { }, on: () => { } };
+
         let authToken = localStorage.getItem('authToken');
         let username = localStorage.getItem('username');
         let userType = localStorage.getItem('userType') || 'resident';
@@ -627,6 +144,7 @@
             return { 'Content-Type': 'application/json', 'Authorization': `Bearer ${authToken}` };
         }
 
+        /* ── INIT ───────────────────────────────────────────── */
         function initPage() {
             if (!authToken) {
                 document.getElementById('notAuthScreen').style.display = 'flex';
@@ -635,26 +153,27 @@
                 return;
             }
             document.getElementById('notAuthScreen').style.display = 'none';
-            document.getElementById('mainPanel').style.display = 'block';
+            document.getElementById('mainPanel').style.display = 'grid';
             document.getElementById('userSection').style.display = 'flex';
             document.getElementById('displayUsername').textContent = username || 'Usuario';
             refrescar();
             setInterval(refrescar, 5000);
         }
 
+        /* ── AUTH ───────────────────────────────────────────── */
         function logout() {
             if (!confirm('¿Cerrar sesión?')) return;
-            localStorage.removeItem('authToken');
-            localStorage.removeItem('username');
-            localStorage.removeItem('userType');
+            ['authToken', 'username', 'userType'].forEach(k => localStorage.removeItem(k));
             window.location.href = 'index.html';
         }
 
+        /* ── HELPERS ────────────────────────────────────────── */
         function getInitials(name) {
             if (!name) return '?';
             return name.split(' ').slice(0, 2).map(n => n[0]).join('').toUpperCase();
         }
 
+        /* ── GENERAR MANUAL ─────────────────────────────────── */
         async function generarManual() {
             const vName = document.getElementById('vName').value.trim();
             const vDestination = document.getElementById('vDestination').value.trim();
@@ -663,20 +182,30 @@
             const headers = getAuthHeaders();
             if (!headers) { window.location.href = 'index.html'; return; }
 
-            const btn = document.querySelector('.btn-primary');
-            btn.textContent = 'Generando...';
+            const btn = document.querySelector('.btn-generate');
+            btn.textContent = 'Generando…';
             btn.disabled = true;
 
             try {
                 const res = await fetch(apiUrl('/api/access/generate-manual'), {
                     method: 'POST', headers,
-                    body: JSON.stringify({ visitorName: vName, destination: vDestination || 'Manual', hostName: username || 'Residente', accessType: 'single', visitType: 'visita' })
+                    body: JSON.stringify({
+                        visitorName: vName,
+                        destination: vDestination || 'Manual',
+                        hostName: username || 'Residente',
+                        accessType: 'single',
+                        visitType: 'visita'
+                    })
                 });
+
                 if (res.status === 401) { window.location.href = 'index.html'; return; }
+
                 const data = await res.json();
+
                 if (data.success && data.token) {
                     document.getElementById('vName').value = '';
                     document.getElementById('vDestination').value = '';
+
                     if (data.qrCodeImage) {
                         sessionStorage.setItem('qrCodeImage', data.qrCodeImage);
                         const mini = document.getElementById('lastQrMini');
@@ -685,20 +214,40 @@
                         mini.style.display = 'flex';
                         mini.onclick = () => abrirQR(data);
                     }
+
                     lastQrParams = data;
-                    const qrParams = new URLSearchParams({ token: data.token, visitorName: data.visitorName || vName, empresa: 'Manual', planta: data.destination || vDestination, accessType: data.accessType, generatedBy: username || 'Residente' });
+                    const qrParams = new URLSearchParams({
+                        token: data.token,
+                        visitorName: data.visitorName || vName,
+                        empresa: 'Manual',
+                        planta: data.destination || vDestination,
+                        accessType: data.accessType,
+                        generatedBy: username || 'Residente'
+                    });
                     window.open(`qr_display.html?${qrParams}`, '_blank');
                     refrescar();
                 }
-            } catch (e) { alert('Error al generar pase'); }
-            finally { btn.textContent = 'Generar QR'; btn.disabled = false; }
+            } catch (e) {
+                alert('Error al generar pase');
+            } finally {
+                btn.textContent = 'Generar QR';
+                btn.disabled = false;
+            }
         }
 
         function abrirQR(data) {
-            const qrParams = new URLSearchParams({ token: data.token, visitorName: data.visitorName || '', empresa: data.empresa || 'Manual', planta: data.destination || '', accessType: data.accessType || 'single', generatedBy: username || 'Residente' });
+            const qrParams = new URLSearchParams({
+                token: data.token,
+                visitorName: data.visitorName || '',
+                empresa: data.empresa || 'Manual',
+                planta: data.destination || '',
+                accessType: data.accessType || 'single',
+                generatedBy: username || 'Residente'
+            });
             window.open(`qr_display.html?${qrParams}`, '_blank');
         }
 
+        /* ── REFRESH ALL ────────────────────────────────────── */
         async function refrescar() {
             if (!authToken) return;
             const headers = getAuthHeaders();
@@ -713,9 +262,9 @@
 
                 if (resA.status === 401) { window.location.href = 'index.html'; return; }
 
-                const activos = await resA.json();
-                const hist = await resH.json();
-                const pends = await resP.json();
+                const [activos, hist, pends] = await Promise.all([
+                    resA.json(), resH.json(), resP.json()
+                ]);
 
                 renderActivos(activos);
                 renderHistorial(hist);
@@ -723,9 +272,10 @@
 
                 const dot = document.getElementById('navNotifDot');
                 const countBadge = document.getElementById('pendingCount');
+
                 if (pends.length > 0) {
                     dot.style.display = 'block';
-                    countBadge.style.display = 'inline';
+                    countBadge.style.display = 'inline-flex';
                     countBadge.textContent = pends.length;
                 } else {
                     dot.style.display = 'none';
@@ -734,69 +284,93 @@
             } catch (e) { console.error(e); }
         }
 
+        /* ── RENDER: ACTIVOS ────────────────────────────────── */
         function renderActivos(activos) {
             const el = document.getElementById('cardActivos');
             if (!activos.length) {
-                el.innerHTML = '<div class="empty-state">No hay pases activos</div>';
+                el.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">🪪</div>
+            <div class="empty-state-text">No hay pases activos</div>
+          </div>`;
                 return;
             }
             el.innerHTML = activos.map(a => `
-            <div class="active-item">
-                <div class="active-avatar">${getInitials(a.visitorName)}</div>
-                <div class="active-info">
-                    <div class="active-name">${a.visitorName}</div>
-                    <div class="active-dest">${a.destination || '—'}</div>
-                </div>
-                <span class="active-badge ${a.accessType === 'frequent' ? 'badge-frequent' : 'badge-single'}">
-                    ${a.accessType === 'frequent' ? `Frecuente (${a.usageCount || 0}/10)` : 'Temporal'}
-                </span>
-            </div>
-        `).join('');
+        <div class="active-item">
+          <div class="active-avatar">${getInitials(a.visitorName)}</div>
+          <div class="active-info">
+            <div class="active-name">${a.visitorName}</div>
+            <div class="active-dest">${a.destination || '—'}</div>
+          </div>
+          <span class="active-badge ${a.accessType === 'frequent' ? 'badge-frequent' : 'badge-single'}">
+            ${a.accessType === 'frequent' ? `Frecuente · ${a.usageCount || 0}/10` : 'Temporal'}
+          </span>
+        </div>
+      `).join('');
         }
 
+        /* ── RENDER: HISTORIAL ──────────────────────────────── */
         function renderHistorial(hist) {
             const el = document.getElementById('cardHistorial');
             if (!hist.length) {
-                el.innerHTML = '<div class="empty-state">Sin historial aún</div>';
+                el.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">📋</div>
+            <div class="empty-state-text">Sin historial aún</div>
+          </div>`;
                 return;
             }
             el.innerHTML = hist.slice(0, 10).map(h => `
-            <div class="history-item">
-                <div class="history-icon">✓</div>
-                <div class="history-info">
-                    <div class="history-name">${h.visitorName}</div>
-                    <div class="history-time">${h.destination || '—'} · ${new Date(h.usedAt || h.updatedAt).toLocaleString('es', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })}</div>
-                </div>
+        <div class="history-item">
+          <div class="history-icon">✓</div>
+          <div class="history-info">
+            <div class="history-name">${h.visitorName}</div>
+            <div class="history-time">
+              ${h.destination || '—'} · ${new Date(h.usedAt || h.updatedAt).toLocaleString('es', {
+                day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit'
+            })}
             </div>
-        `).join('');
+          </div>
+        </div>
+      `).join('');
         }
 
+        /* ── RENDER: PENDIENTES ─────────────────────────────── */
         function renderPendientes(pends) {
             const el = document.getElementById('listaPendientes');
             if (!pends.length) {
-                el.innerHTML = '<div class="card"><div class="empty-state">No hay solicitudes pendientes</div></div>';
+                el.innerHTML = `
+          <div class="list-card">
+            <div class="empty-state">
+              <div class="empty-state-icon">✅</div>
+              <div class="empty-state-text">No hay solicitudes pendientes</div>
+            </div>
+          </div>`;
                 return;
             }
             el.innerHTML = pends.map(p => `
-            <div class="pending-card">
-                <div class="pending-header">
-                    <div class="pending-name">${p.visitorName}</div>
-                    <div class="pending-meta">
-                        <span>📍 ${p.destination || '—'}</span>
-                        ${p.placas ? `<span>🚗 ${p.placas}</span>` : ''}
-                        <span class="meta-chip">${p.accessType === 'frequent' ? 'Frecuente' : 'Temporal'}</span>
-                        ${p.visitType ? `<span class="meta-chip">${p.visitType}</span>` : ''}
-                    </div>
-                    ${p.hostName ? `<div style="font-size:11px; color:var(--text-muted); margin-top:6px;">Anfitrión: ${p.hostName}</div>` : ''}
-                </div>
-                <div class="pending-actions">
-                    <button class="btn-approve" onclick="resolver('${p._id}','approve')">✓ Aprobar</button>
-                    <button class="btn-deny" onclick="resolver('${p._id}','deny')">✗ Denegar</button>
-                </div>
+        <div class="pending-card">
+          <div class="pending-header">
+            <div class="pending-name">${p.visitorName}</div>
+            <div class="pending-meta">
+              <span class="meta-text">📍 ${p.destination || '—'}</span>
+              ${p.placas ? `<span class="meta-text">🚗 ${p.placas}</span>` : ''}
+              <span class="meta-chip ${p.accessType === 'frequent' ? '' : 'chip-blue'}">
+                ${p.accessType === 'frequent' ? 'Frecuente' : 'Temporal'}
+              </span>
+              ${p.visitType ? `<span class="meta-chip">${p.visitType}</span>` : ''}
             </div>
-        `).join('');
+            ${p.hostName ? `<div class="pending-host">Anfitrión: ${p.hostName}</div>` : ''}
+          </div>
+          <div class="pending-actions">
+            <button class="btn-approve" onclick="resolver('${p._id}','approve')">✓ Aprobar</button>
+            <button class="btn-deny"    onclick="resolver('${p._id}','deny')">✗ Denegar</button>
+          </div>
+        </div>
+      `).join('');
         }
 
+        /* ── RESOLVER SOLICITUD ─────────────────────────────── */
         async function resolver(id, action) {
             const headers = getAuthHeaders();
             if (!headers) { window.location.href = 'index.html'; return; }
@@ -804,18 +378,35 @@
             const url = apiUrl(`/api/access/${action === 'approve' ? 'approve' : 'deny'}/${id}`);
             try {
                 const res = await fetch(url, { method: 'POST', headers });
-                if (!res.ok) { if (res.status === 401) { window.location.href = 'index.html'; } return; }
+                if (!res.ok) { if (res.status === 401) window.location.href = 'index.html'; return; }
+
                 const data = await res.json();
+
                 if (action === 'approve' && data.token) {
-                    socket.emit('approve-access', { requestId: data.requestId, token: data.token, qrCodeImage: data.qrCodeImage });
+                    socket.emit('approve-access', {
+                        requestId: data.requestId,
+                        token: data.token,
+                        qrCodeImage: data.qrCodeImage
+                    });
                     if (data.qrCodeImage) sessionStorage.setItem('qrCodeImage', data.qrCodeImage);
-                    const qrParams = new URLSearchParams({ token: data.token, visitorName: data.visitorName || '', empresa: data.empresa || '', planta: data.destination || '', accessType: data.accessType || 'single', generatedBy: username || 'Residente' });
+
+                    const qrParams = new URLSearchParams({
+                        token: data.token,
+                        visitorName: data.visitorName || '',
+                        empresa: data.empresa || '',
+                        planta: data.destination || '',
+                        accessType: data.accessType || 'single',
+                        generatedBy: username || 'Residente'
+                    });
                     window.open(`qr_display.html?${qrParams}`, '_blank');
                 } else if (action === 'deny' && data.requestId) {
                     socket.emit('deny-access', data.requestId);
                 }
+
                 refrescar();
-            } catch (e) { alert('Error al procesar la solicitud'); }
+            } catch (e) {
+                alert('Error al procesar la solicitud');
+            }
         }
 
         initPage();
